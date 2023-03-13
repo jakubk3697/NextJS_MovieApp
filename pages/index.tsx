@@ -4,11 +4,11 @@ export default function Home({movies}:{movies: Movies}) {
   return (
     <>
       <ul>
-        {/* {movies.results.map(movie => (
+        {movies.results.map(movie => (
           <li key={movie.id}>
             <h2>{movie.title}</h2>
           </li>
-        ))} */}
+        ))}
       </ul>
     </>
   )
