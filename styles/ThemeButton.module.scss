@@ -1,0 +1,8 @@
+.group:hover .dot {
+    background-color: #48bb78;
+}
+
+/* Note: these styles are only applied when the checkbox is checked */
+.group:checked .dot {
+    transform: translateX(100%);
+}
