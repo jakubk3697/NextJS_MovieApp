@@ -3,7 +3,6 @@ import { Movies } from "@/types";
 export default function Home({movies}:{movies: Movies}) {
   return (
     <>
-      <h1>Home Page</h1>
       <ul>
         {movies.results.map(movie => (
           <li key={movie.id}>

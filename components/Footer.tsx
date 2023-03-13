@@ -10,8 +10,8 @@ export const Footer = () => {
                     <Image 
                         src={"/linkedin.png"} 
                         alt="LinkedIn" 
-                        width={30}
-                        height={30}
+                        width={20}
+                        height={20}
                         loader={imageLoader}
                         unoptimized
                         className='hover:scale-110'
@@ -21,8 +21,8 @@ export const Footer = () => {
                     <Image 
                         src={"/github.png"} 
                         alt="GitHub" 
-                        width={30}
-                        height={30}
+                        width={20}
+                        height={20}
                         loader={imageLoader}
                         unoptimized
                         className="text-white bg-gray-50 rounded-full hover:scale-110"
