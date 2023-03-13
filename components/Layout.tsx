@@ -12,13 +12,13 @@ export default function Layout({ children }: LayoutProps) {
     return (
         <>
             <Meta />
-            <div>
+            <div className="container mx-auto h-screen">
                 <Header />
-                <main className="container mx-auto">
+                <main>
                     {children}
                 </main>
-                <Footer />
             </div>
+                <Footer />
         </>
     )
 }
