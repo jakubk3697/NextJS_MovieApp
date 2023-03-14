@@ -1,5 +1,6 @@
 import { Movies } from '@/types';
 import axios from 'axios';
+import { MovieCard } from '@/components/MovieCard'; 
 
 interface propsContext {
    params: { movieType: string };
@@ -8,16 +9,11 @@ interface propsContext {
 export default function MainMovies({movies}:{movies: Movies})  {
     return(
         <>
-            <h1>Home Page</h1>
-
-            <ul>
-                {movies.results.map(movie => (
-                    <li key={movie.id}>
-                        <h2>{movie.title}</h2>
-                    </li>
-                    
-                ))}
-            </ul>
+              <div className="px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+        {movies.results.map(movie => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </div>
         </>
     );    
 }
@@ -31,7 +27,7 @@ export async function getStaticProps(context: propsContext) {
         props: {
             movies,
         },
-        revalidate: 60 * 60 * 24, 
+        revalidate: 60, 
     }
 }
 
