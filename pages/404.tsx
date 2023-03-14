@@ -8,14 +8,6 @@ import image from "@public/404.png";
 export default function Custom404() {
     const router = useRouter();
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            router.push('/');
-        }, 15000);
-
-        return () => clearTimeout(timer);
-    }, [router])
-
     return (
         <section className=" h-2/3 p-6 mt-10 w-fit">
             <h1 className="text-4xl font-semibold text-red-700 mb-6">404 - Page Not Found</h1>
