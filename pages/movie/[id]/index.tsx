@@ -23,7 +23,7 @@ export default function MovieDetails(params: staticParams) {
     }
 
     return (
-            <div className="container my-12 px-4">
+            <div className="container my-12 px-4 bg-black bg-opacity-30">
                 <div className="flex flex-col md:flex-row items-center">
                     <div className="w-full md:w-1/3 mb-4 md:mb-0">
                         <Image
@@ -36,7 +36,7 @@ export default function MovieDetails(params: staticParams) {
                     </div>
                     <div className="w-full md:w-2/3 md:pl-8">
                         <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
-                        <p className="text-gray-500 mb-4">
+                        <p className="text-gray-400 mb-4">
                            {movie.overview}
                         </p>
                         <button className="flex items-center bg-red-500 text-white px-4 py-2 rounded-md">
