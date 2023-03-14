@@ -3,7 +3,7 @@ import { imageLoader } from '@/utils/imageLoader'
 
 export const Footer = () => {
     return (
-        <footer className="flex justify-center items-center margin-x fixed bottom-0 w-full h-10 opacity-90 tracking-widest bg-black">
+        <footer className="flex justify-center items-center mt-10 w-full h-10 opacity-90 tracking-widest bg-black">
             <p>COPYRIGHT© 2023 MovieApp</p>
             <div className='flex pl-3 space-x-3'>
                 <a href="https://www.linkedin.com/in/jkaminski97/" target="_blank" rel="noreferrer">

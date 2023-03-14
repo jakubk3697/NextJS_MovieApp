@@ -21,9 +21,6 @@ export const MovieCard = ({ movie }: keyable) => {
                     />
                     <div className="px-6 py-4">
                         <div className="font-bold text-xl mb-2">{movie.title}</div>
-                        <p className="text-gray-700 text-base">
-                            {movie.overview.slice(0, 40) + "..."}
-                        </p>
                     </div>
                     <div className="px-6 pt-4 pb-2">
                        {movie.genre_ids.map((genre: number) => (
