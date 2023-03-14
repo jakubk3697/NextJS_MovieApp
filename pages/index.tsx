@@ -14,7 +14,7 @@ export default function Home({movies}:{movies: Movies}) {
 }
 
 export async function getStaticProps() {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US&page=1`);
+    const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`);
     const movies = await res.json();
     
     return {
