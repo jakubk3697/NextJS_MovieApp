@@ -1,15 +1,14 @@
+import { MovieCard } from "@/components/MovieCard";
 import { Movies } from "@/types";
 
 export default function Home({movies}:{movies: Movies}) {
   return (
     <>
-      <ul>
+      <div className="px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
         {movies.results.map(movie => (
-          <li key={movie.id}>
-            <h2>{movie.title}</h2>
-          </li>
+          <MovieCard key={movie.id} movie={movie} />
         ))}
-      </ul>
+      </div>
     </>
   )
 }
