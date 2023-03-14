@@ -42,7 +42,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
                     />
                     <div className="px-3 py-2 flex justify-between">
                         <div className="font-bold text-xl mb-2 mr-4">{movie.title}</div>
-                        <p className="text-gray-400 italic">{movie.vote_average}</p>
+                        <p className="text-gray-400 italic font-semibold">{movie.vote_average}</p>
                     </div>
                     <div className="px-3 pt-2 pb-1">
                        {movie.genre_ids.map((genre: number) => (
