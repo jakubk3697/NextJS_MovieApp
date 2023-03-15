@@ -1,6 +1,6 @@
 import { Movies } from '@/types';
-import axios from 'axios';
 import { MovieCard } from '@/components/MovieCard'; 
+import { fetchMovies } from '@/API/moviedbAPI';
 
 interface propsContext {
    params: { movieType: string };
@@ -20,14 +20,13 @@ export default function MoviesPage({movies}:{movies: Movies})  {
 
 export async function getStaticProps(context: propsContext) {
     const {movieType} = context.params;
-    const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieType}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`);
-    const movies = await res.data;
+    const movies = await fetchMovies(movieType, 1);
 
     return {
         props: {
             movies,
         },
-        revalidate: 60, 
+        revalidate: 60 * 60 * 24, // check if static page needs to be regenerated every 24 hours 
     }
 }
 
