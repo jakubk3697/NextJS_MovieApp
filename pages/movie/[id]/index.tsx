@@ -11,7 +11,6 @@ interface staticParams{
 
 export default function MovieDetails(params: staticParams) {
     const {movie, cast} = params;
-    console.log(cast);
     
     const moviePosterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
     const initialActors = cast.slice(0, 6); // handle how much actors to show on the page
