@@ -40,14 +40,14 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
                         unoptimized
                         className="w-full rounded-t-xl"
                     />
-                    <div className="px-3 py-2 flex justify-between">
-                        <div className="font-bold text-xl mb-2 mr-4">{movie.title}</div>
+                    <div className="flex justify-between px-3 py-2">
+                        <div className="mb-2 mr-4 text-xl font-bold">{movie.title}</div>
                         <p className="text-gray-400 italic font-semibold">{movie.vote_average}</p>
                     </div>
                     <div className="px-3 pt-2 pb-1">
                        {movie.genre_ids.map((genre: number) => (
                         <span 
-                            className="inline-block border border-gray-600 rounded-full px-1 py-0.5 text-sm font-thin italic text-gray-200 mr-1 mt-1"
+                            className="inline-block mr-1 mt-1 px-1 py-0.5 border border-gray-600 rounded-full text-sm font-thin italic text-gray-200"
                             key={genre}
                          >
                             {getGenre(genre)}
