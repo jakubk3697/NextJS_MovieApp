@@ -91,23 +91,24 @@ export default function MovieDetails(params: staticParams) {
 
 export async function getStaticProps(context: any) {
     const { id } = context.params;
+    console.log(context);
+    
 
     const movie = await fetchMovieByID(id);
     const cast = await fetchMovieCastByID(id);
     return {
-        props: {movie, cast}
+        props: {movie, cast},
     }
 }
 
 export async function getStaticPaths() {
-    // const res = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`);
     const movies = await fetchMovies("popular", 1);
-    
+     
     const ids = movies.map((movie: Movie) => movie.id);
     const paths = ids.map((id: number) => ({ params: { id: id.toString() } }));
 
     return {
         paths: paths,
-        fallback: false
+        fallback: true
     }
 }
