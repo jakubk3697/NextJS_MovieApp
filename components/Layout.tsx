@@ -14,6 +14,7 @@ export default function Layout({ children }: LayoutProps) {
             <Meta />
             <div className="container mx-auto min-h-full">
                 <Header />
+                <Navbar/>
                 <main>
                     {children}
                 </main>
