@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Genre, MovieCardProps } from '@/types';
+import noCardPoster from '@/public/no_card_poster.png';
 
 interface keyable {
     [key: string]: any;
@@ -28,11 +29,13 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         return genre ? genre.name : '';
       };
 
+      const moviePosterUrl =  movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : noCardPoster;
+
     return (
         <div key={movie.id} className="bg-black bg-opacity-90 rounded-xl hover:scale-110 transition-transform pb-3">
             <Link href={`/movie/${movie.id}`}>
                     <Image 
-                        src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                        src={moviePosterUrl}
                         width={300}
                         height={450}
                         alt={movie.title}
