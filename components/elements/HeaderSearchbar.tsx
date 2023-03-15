@@ -5,9 +5,9 @@ export const HeaderSearchbar = () => {
             <input 
                 type="text" 
                 placeholder="Search movies..." 
-                className="bg-transparent px-2 py-2 rounded-lg w-full">
+                className="bg-transparent px-2 py-2 rounded-lg w-full pr-28 text-sm">
             </input>
-            <button className="absolute top-0 right-0 bottom-0 py-2 px-4 rounded-r-lg bg-sky-700 text-white hover:opacity-90 transition-opacity">Search</button>
+            <button className="absolute top-0 right-0 bottom-0 py-2 px-4 rounded-r-lg bg-sky-700 text-white hover:opacity-90 transition-opacity text-sm">Search</button>
         </div>
     );
 }
