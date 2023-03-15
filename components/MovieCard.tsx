@@ -30,7 +30,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
 
     return (
         <div key={movie.id} className="bg-black bg-opacity-90 rounded-xl hover:scale-110 transition-transform pb-3">
-            <Link href={`movie/${movie.id}`}>
+            <Link href={`/movie/${movie.id}`}>
                     <Image 
                         src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
                         width={200}
