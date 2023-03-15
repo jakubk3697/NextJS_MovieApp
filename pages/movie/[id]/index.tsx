@@ -1,22 +1,20 @@
-import { Movie } from '@/types';
 import axios from 'axios';
-import { GetStaticProps } from 'next';
+import { Movie } from '@/types';
 import Image from 'next/image';
-import Link from 'next/link';
 import {BsBookmarkStar} from 'react-icons/bs';
+import {fetchMovies, fetchMovieByID, fetchMovieCastByID } from '@/API/moviedbAPI';
 
 interface staticParams{
     movie: Movie;
-    casts: {
-        cast: object[];
-        crew: object[];
-    }
+    cast: object[]
 }
 
 export default function MovieDetails(params: staticParams) {
-    const {movie, casts} = params;
+    const {movie, cast} = params;
+    console.log(cast);
+    
     const moviePosterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-    const initialActors = casts.cast.slice(0, 6); // handle how much actors to show on the page
+    const initialActors = cast.slice(0, 6); // handle how much actors to show on the page
 
     const generateActorPoster = (profile_path: string) => {
         return `https://image.tmdb.org/t/p/w500${profile_path}`;
@@ -94,22 +92,18 @@ export default function MovieDetails(params: staticParams) {
 
 export async function getStaticProps(context: any) {
     const { id } = context.params;
-    const res = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`);
-    const movie = res.data;
 
-    const res2 = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`);
-    const casts = res2.data;
-
+    const movie = await fetchMovieByID(id);
+    const cast = await fetchMovieCastByID(id);
     return {
-        props: {movie, casts}
+        props: {movie, cast}
     }
 }
 
-
 export async function getStaticPaths() {
-    const res = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`);
-    const movies = res.data.results;
-
+    // const res = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`);
+    const movies = await fetchMovies("popular", 1);
+    
     const ids = movies.map((movie: Movie) => movie.id);
     const paths = ids.map((id: number) => ({ params: { id: id.toString() } }));
 
