@@ -91,8 +91,6 @@ export default function MovieDetails(params: staticParams) {
 
 export async function getStaticProps(context: any) {
     const { id } = context.params;
-    console.log(context);
-    
 
     const movie = await fetchMovieByID(id);
     const cast = await fetchMovieCastByID(id);
