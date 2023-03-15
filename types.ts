@@ -10,6 +10,7 @@ export interface Movie {
   }
   
   export interface Movies {
+    map(arg0: (movie: Movie) => JSX.Element): import("react").ReactNode;
     page: number;
     results: Movie[];
     total_pages: number;
