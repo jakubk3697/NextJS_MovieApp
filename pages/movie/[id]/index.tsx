@@ -17,7 +17,7 @@ export default function MovieDetails(params: staticParams) {
     const initialActors = cast.slice(0, 6); // handle how much actors to show on the page
 
     const generateActorPoster = (profile_path: string) => {
-        return `https://image.tmdb.org/t/p/w500${profile_path}`;
+        return `https://image.tmdb.org/t/p/w400${profile_path}`;
     }
 
     return (
