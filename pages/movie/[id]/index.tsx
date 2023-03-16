@@ -1,62 +1,76 @@
 import axios from 'axios';
 import { Movie } from '@/types';
 import Image from 'next/image';
-import {BsBookmarkStar} from 'react-icons/bs';
-import {fetchMovies, fetchMovieByID, fetchMovieCastByID } from '@/API/moviedbAPI';
+import { BsBookmarkStar } from 'react-icons/bs';
+import { fetchMovies, fetchMovieByID, fetchMovieCastByID } from '@/API/moviedbAPI';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
-
-interface staticParams{
-    movie: Movie;
-    cast: object[]
+interface StaticParams {
+  movie: Movie;
+  cast: object[];
 }
 
 export default function MovieDetails() {
-    const router = useRouter();
-    const { id } = router.query;
+  const router = useRouter();
+  const { id } = router.query;
+  const [isRouterReady, setIsRouterReady] = useState(false);
 
-    const [movieData, setMovieData] = useState([]);
-    const [castData, setCastData] = useState([]);
-
-    useEffect(() => {
-        if(router.isReady) {
-            const fetchMovie = async () => {
-                const movie = await fetchMovieByID(Number(id));
-                const cast = await fetchMovieCastByID(Number(id));
-                setCastData(cast);
-                setMovieData(movie);
-            }
-            fetchMovie();
-        }
-    }, [id]);
-    
-    const generateActorPoster = (profile_path: string) => {
-        return `https://image.tmdb.org/t/p/w400${profile_path}`;
+  const { data: movie } = useQuery<Movie>(
+    ['movie', id],
+    () => fetchMovieByID(Number(id)),
+    {
+      enabled: isRouterReady && !!id, // Only fetch when route exists
     }
-    
-    const moviePosterUrl = `https://image.tmdb.org/t/p/w500${movieData.poster_path}`;
-    const initialActors = castData.slice(0, 6); // handle how much actors to show on the page
+  );
 
+  const { data: cast } = useQuery<object[]>(
+    ['cast', id],
+    () => fetchMovieCastByID(Number(id)),
+    {
+      enabled: isRouterReady && !!id, // Only fetch when route exists
+    }
+  );
+
+  useEffect(() => {
+    if (router.isReady) {
+      setIsRouterReady(true);
+    }
+  }, [router.isReady]);
+
+  const generateActorPoster = (profile_path: string) => {
+    return `https://image.tmdb.org/t/p/w400${profile_path}`;
+  };
+
+  if (!isRouterReady) {
+    return null;
+  }
+
+  if (!movie || !cast) {
+    return <div>Loading...</div>;
+  }
+
+  const moviePosterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+  const initialActors = cast.slice(0, 6);
 
     return (
             <>
-                {movieData && (
                     <div className="container my-12 px-4 bg-black bg-opacity-30">
                     <div className="flex flex-col md:flex-row items-center">
                         <div className="w-full mb-4 md:w-1/3 md:mb-0">
                             <Image
                                 src={moviePosterUrl}
-                                alt={movieData.title}
+                                alt={movie.title}
                                 width={500}
                                 height={750}
                                 className="rounded-lg"
                             />
                         </div>
                         <div className="w-full md:w-2/3 md:pl-8">
-                            <h1 className="mb-2 text-3xl font-bold">{movieData.title}</h1>
+                            <h1 className="mb-2 text-3xl font-bold">{movie.title}</h1>
                             <p className="mb-4 text-gray-400">
-                               {movieData.overview}
+                               {movie.overview}
                             </p>
                             <button className="flex items-center px-4 py-2 rounded-md bg-red-500 text-white">
                                 <BsBookmarkStar className="h-5 w-5 mr-2" />
@@ -108,7 +122,6 @@ export default function MovieDetails() {
                         </div>
                     </div>
                 </div>
-                )}
             </>
     )
 }
