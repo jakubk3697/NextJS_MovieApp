@@ -6,7 +6,7 @@ import { ThemeButton } from './elements/ThemeButton';
 
 export const Header = () => {
     return(
-        <header className="flex items-center flex-wrap p-4">
+        <header className="sticky top-0 bg-black bg-opacity-70 z-10 flex items-center flex-wrap p-4">
             <Link href={'/'} className="flex pr-4 hover:opacity-90 transition-opacity">
                     <BiCameraMovie className="mr-1 text-4xl" />
                     <h1 className="text-3xl font-semibold tracking-wider">Movie App</h1>
