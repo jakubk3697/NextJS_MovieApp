@@ -9,7 +9,7 @@ function SearchPage() {
     const router = useRouter();
     const { query }:any = router.query;
 
-    const { data, isFetching, isError } = useQuery(
+    const { data, isFetching, isError, isSuccess } = useQuery(
         ['movies', { query }],
         () => fetchMoviesByTitle(query),
         {
@@ -21,16 +21,17 @@ function SearchPage() {
 
     if (isError) return <p>Something went wrong</p>
     
-    
-    const movies: Movie[] = data?.results;
+    const movies = data?.results;
 
     return (
         <>
-            <section className="px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                {movies.map((movie: Movie) => (
-                    <MovieCard key={movie.id} movie={movie} />
-                ))}
-            </section>
+            {isSuccess && (
+                <section className="px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+                    {movies.map((movie: Movie) => (
+                        <MovieCard key={movie.id} movie={movie} />
+                    ))}
+                </section>
+            )}
         </>
     )
 }
