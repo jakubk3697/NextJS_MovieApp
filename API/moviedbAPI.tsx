@@ -30,3 +30,10 @@ export const fetchMovieCastByID = async (id:number) => {
     
     return res.data.cast;
 }
+
+export const fetchMovieByTitle = async (title:string) => {
+    const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${title}`;
+    const { data } = await axios.get(url);
+
+    return data;
+}
