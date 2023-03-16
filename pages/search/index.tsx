@@ -7,7 +7,7 @@ import { Loader } from '@/components/elements/Loader';
 
 function SearchPage() {
     const router = useRouter();
-    const { query }: any = router.query;
+    const { query }:any = router.query;
 
     const { data, isFetching, isError } = useQuery(
         ['movies', { query }],
