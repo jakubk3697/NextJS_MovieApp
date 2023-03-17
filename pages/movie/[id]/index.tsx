@@ -49,6 +49,7 @@ export default function MovieDetails() {
         return <Loader />
     }
 
+    const movieData = !!movies ? movies : [];
 
     return (
         <>
@@ -56,7 +57,8 @@ export default function MovieDetails() {
                 <InfoSection movie={movie} />
                 <CastSection cast={cast} />
                 <ReviewSection />
-                <SimiliarMoviesSection movies={movies} />
+                {/* */}
+                <SimiliarMoviesSection movies={movieData} />
             </div>
         </>
     )
@@ -152,7 +154,7 @@ const ReviewSection = () => {
     );
 };
 
-const SimiliarMoviesSection = ({movies}: {movies: any}) => {
+const SimiliarMoviesSection = ({movies}: {movies: Movies}) => {
     return (
         <section className="py-10">
             <h2 className="text-2xl font-bold mb-5">Similar Movies</h2>
