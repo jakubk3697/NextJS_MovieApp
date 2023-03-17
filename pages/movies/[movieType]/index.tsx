@@ -3,6 +3,7 @@ import { MovieCard } from '@/components/MovieCard';
 import { reactQueryFetchMovies, fetchMovies } from '@/API/moviedbAPI';
 import { useInfiniteQuery } from 'react-query';
 import { useRouter } from 'next/router';
+import MoviesView from '@/components/MoviesView';
 
 
 interface propsContext {
@@ -19,11 +20,18 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
     const router = useRouter();
     const { movieType } = router.query;
 
+    /**
+     * @description It is a function that is passed to the useInfiniteQuery hook to fetch the data client-side page by page beginning from the second page.
+     * @returns 
+     */
     const initMoviedbFetch = async ({ pageParam = 1 }) => {
         const response = await reactQueryFetchMovies({ queryKey: ['movies', { page: pageParam, movieType }] });
         return response;
     }
 
+    /**
+     * @description It uses the useInfiniteQuery hook to fetch the data client-side page by page beginning from the second page.
+     */
     const {
         data,
         isError,
@@ -35,6 +43,9 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
         getNextPageParam: (lastPage) => lastPage.page + 1,
     });
 
+    /**
+     * @description It contains the data from the first page of the movies fetched statically and each next page fetched using react-query.
+     */
     const movieData = data ? data.pages.flatMap((page) => page.results) : movies;
 
     if (isError) return router.push('/404');
@@ -43,11 +54,7 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
         <>
             {isSuccess && (
                 <>
-                    <section className="grid grid-cols-1 px-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                        {movieData.map(movie => (
-                            <MovieCard key={movie.id} movie={movie} />
-                        ))}
-                    </section>
+                    <MoviesView movies={movieData} />
                     <button
                         onClick={() => fetchNextPage()}
                         disabled={!hasNextPage || isFetchingNextPage}
@@ -65,6 +72,10 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
     );
 }
 
+/**
+ * @param context It contains the movie type from the url.
+ * @returns Static page with the movies of the selected type [popular, top_rated, upcoming, now_playing]
+ */
 export async function getStaticProps(context: propsContext) {
     const { movieType } = context.params;
     const movies = await fetchMovies(movieType, 1);
@@ -77,8 +88,10 @@ export async function getStaticProps(context: propsContext) {
     }
 }
 
+/**
+ * @returns It returns the paths for the static pages.
+ */
 export async function getStaticPaths() {
-
     return {
         paths: [
             { params: { movieType: 'popular' } },
