@@ -9,12 +9,12 @@ export interface Movie {
     genre_ids: number[];
   }
   
+  /**
+   * @description map(arg0: (movie: Movie) => JSX.Element) means that map function takes a function as an argument and returns a ReactNode
+   * @example map((movie: Movie) => <MovieCard movie={movie} />)
+   */
   export interface Movies {
     map(arg0: (movie: Movie) => JSX.Element): import("react").ReactNode;
-    page: number;
-    results: Movie[];
-    total_pages: number;
-    total_results: number;
   }
   
   export interface Genre {
