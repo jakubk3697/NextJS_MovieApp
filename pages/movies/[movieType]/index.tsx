@@ -1,9 +1,9 @@
 import { Movies } from '@/types';
-import { MovieCard } from '@/components/MovieCard';
 import { reactQueryFetchMovies, fetchMovies } from '@/API/moviedbAPI';
 import { useInfiniteQuery } from 'react-query';
 import { useRouter } from 'next/router';
-import MoviesView from '@/components/MoviesView';
+import MovieCards from '@/components/MovieCards';
+import { Loader } from '@/components/elements/Loader';
 
 
 interface propsContext {
@@ -36,6 +36,7 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
         data,
         isError,
         isSuccess,
+        isFetching,
         hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
@@ -49,12 +50,13 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
     const movieData = data ? data.pages.flatMap((page) => page.results) : movies;
 
     if (isError) return router.push('/404');
+    if (isFetching && !isFetchingNextPage) return <Loader />;
 
     return (
         <>
             {isSuccess && (
                 <>
-                    <MoviesView movies={movieData} />
+                    <MovieCards movies={movieData} />
                     <button
                         onClick={() => fetchNextPage()}
                         disabled={!hasNextPage || isFetchingNextPage}
@@ -74,6 +76,8 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
 
 /**
  * @param context It contains the movie type from the url.
+ * @description It fetches the first page of the movies of the selected type. 
+ * @description revalidate is set to 1 day so that the static page is regenerated after 1 day.
  * @returns Static page with the movies of the selected type [popular, top_rated, upcoming, now_playing]
  */
 export async function getStaticProps(context: propsContext) {
@@ -84,7 +88,7 @@ export async function getStaticProps(context: propsContext) {
         props: {
             movies,
         },
-        revalidate: 60 * 60 * 24, // check if static page needs to be regenerated every 24 hours 
+        revalidate: 60 * 60 * 24, 
     }
 }
 
