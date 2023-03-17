@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import { MovieCard } from '@/components/MovieCard';
 import { Movie } from '@/types';
 import { Loader } from '@/components/elements/Loader';
+import { useCallback, useRef } from 'react';
 
 function SearchPage() {
     const router = useRouter();
@@ -15,11 +16,10 @@ function SearchPage() {
         {
             enabled: !!query,
         }
-    )
-
+    )    
+    
     if (isFetching) return <Loader/>
-
-    if (isError) return <p>Something went wrong</p>
+    if (isError) return router.push('/404');
     
     const movies = data?.results;
 
