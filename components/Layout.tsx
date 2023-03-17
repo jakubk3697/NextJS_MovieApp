@@ -8,6 +8,10 @@ type LayoutProps = {
     children: ReactNode
 }
 
+/**
+ * @param children
+ * @returns The layout component with the header, navbar, main and footer components
+ */
 export default function Layout({ children }: LayoutProps) {
     return (
         <>

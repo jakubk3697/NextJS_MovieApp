@@ -6,6 +6,15 @@ type DefaultProps = {
     description: string;
 }
 
+/**
+ * 
+ * @param title
+ * @param keywords
+ * @param description
+ * @description When we provide the title, keywords and description props, it will be used to render the meta component. 
+ * @description If we don't provide the title, keywords and description props, it will use the default props.
+ * @returns The meta component with the title, keywords and description.
+ */
 export const Meta = ({ keywords, title, description }: DefaultProps) =>{
     return (
         <Head>

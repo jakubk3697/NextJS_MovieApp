@@ -1,6 +1,10 @@
 import Image from 'next/image'
 import { imageLoader } from '@/utils/imageLoader'
 
+/**
+ * @description Footer always on the bottom of the page. It contains a copyright and links to my LinkedIn and GitHub profiles.
+ * @returns A footer with a copyright and links to my LinkedIn and GitHub profiles
+ */
 export const Footer = () => {
     return (
         <footer className="flex justify-center items-center mt-10 w-full h-10 opacity-90 tracking-widest bg-black">

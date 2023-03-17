@@ -1,10 +1,13 @@
 import { useRouter } from "next/router"
-import { useEffect } from "react"
-import styles from '@styles/404.module.scss'
 import Image from "next/image";
 import { imageLoader } from "@/utils/imageLoader";
-import image from "@public/404.png";
 
+
+/**
+ * @description It displays a 404 page with a gif and a button to go back to the home page
+ * @description It uses the useRouter hook to redirect the user to the home page after clicking the button
+ * @returns A 404 page with a gif and a button to go back to the home page
+ */
 export default function Custom404() {
     const router = useRouter();
 

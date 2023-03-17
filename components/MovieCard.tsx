@@ -5,10 +5,14 @@ import { useEffect, useState } from 'react';
 import { Genre, MovieCardProps } from '@/types';
 import noCardPoster from '@/public/no_card_poster.png';
 
-interface keyable {
-    [key: string]: any;
-}
-
+/**
+ * 
+ * @param movie given movie from themoviedb API
+ * @description It generates all info about the movie as a card.
+ * @description After mounting the component, it fetches the genres from the API and sets the state of the genres using useEffect hook.
+ * @description It uses the Link component from next to navigate to the movie page.
+ * @returns MovieCard component with the movie info and movie poster.
+ */
 export const MovieCard = ({ movie }: MovieCardProps) => {
     const [genres, setGenres] = useState<Genre[]>([]);
 
