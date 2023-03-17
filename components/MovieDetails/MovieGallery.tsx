@@ -4,11 +4,20 @@ import { fetchMovieSnapshots } from '@/API/moviedbAPI';
 import { Loader } from '@/components/elements/Loader';
 import Slider from 'react-slick';
 import { SnapshostsSlick } from '@/utils/slickConfig';
-import { MovieSnapshot } from '@/types';
+
+interface Snapshot {
+    aspect_ratio: number;
+    file_path: string;
+    height: number;
+    iso_639_1: string;
+    vote_average: number;
+    vote_count: number;
+    width: number;
+}
 
 export const MovieGallery = ({ movieId }: { movieId: number }) => {
 
-    const { data: snapshots } = useQuery<object[]>(['movieSnapshots', movieId], () => fetchMovieSnapshots(Number(movieId)), {
+    const { data: snapshots } = useQuery<Snapshot[]>(['movieSnapshots', movieId], () => fetchMovieSnapshots(Number(movieId)), {
         enabled: !!movieId,
     });
 
@@ -20,8 +29,10 @@ export const MovieGallery = ({ movieId }: { movieId: number }) => {
             {snapshots ? (
                 <div className="mx-10">
                     <Slider {...settings}>
-                        {snapshots.map((snapshot: any) => (
-                            <div key={snapshot.file_path}>
+                        {snapshots.map((snapshot: Snapshot) => {
+                            console.log(snapshot);
+                            return (
+                                <div key={snapshot.file_path}>
                                 <div className="mx-2">
                                     <Image
                                         src={`https://image.tmdb.org/t/p/w780${snapshot.file_path}`}
@@ -31,8 +42,10 @@ export const MovieGallery = ({ movieId }: { movieId: number }) => {
                                         className="rounded-md mx-auto object-fill"
                                     />
                                 </div>
-                            </div>
-                        ))}
+                                </div>
+                            )
+                            }
+                        )}
                     </Slider>
                 </div>
             )
