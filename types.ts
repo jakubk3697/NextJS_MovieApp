@@ -1,15 +1,16 @@
 export interface Movie {
-    runtime: number;
-    genres: { id: number; name: string; }[];
-    tagline: string;
-    id: number;
-    title: string;
-    overview: string;
-    poster_path: string;
-    release_date: string;
-    vote_average: number;
-    vote_count: number;
-    genre_ids: number[];
+  runtime: number;
+  genres: { id: number; name: string; }[];
+  tagline: string;
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+  vote_count: number;
+  genre_ids: number[];
+  length: any;
   }
   
   /**
@@ -19,6 +20,7 @@ export interface Movie {
   export interface Movies {
     map(arg0: (movie: Movie) => JSX.Element): import("react").ReactNode;
   }
+  
   
   export interface Genre {
     id: number;

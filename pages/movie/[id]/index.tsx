@@ -1,12 +1,13 @@
-import { Movie } from '@/types';
+import { Movie, MovieCardProps, Movies } from '@/types';
 import Image from 'next/image';
 import { BsBookmarkStar } from 'react-icons/bs';
-import { fetchMovieByID, fetchMovieCastByID } from '@/API/moviedbAPI';
+import { fetchMovieByID, fetchMovieCastByID, fetchSimiliarMovies } from '@/API/moviedbAPI';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Loader } from '@/components/elements/Loader';
-import noPoster from '@/public/no_card_poster.png'
+import noPoster from '@/public/no_card_poster.png';
+import MovieCards from '@/components/MovieCards';
 
 /**
  * @description It uses the movie id from the url to fetch the movie details. 
@@ -30,6 +31,10 @@ export default function MovieDetails() {
         enabled: isRouterReady && !!id,
     });
 
+    const { data: movies } = useQuery<Movie[]>(['similiarMovies', id], () => fetchSimiliarMovies(Number(id)), {
+        enabled: isRouterReady && !!id,
+    })
+
     useEffect(() => {
         if (router.isReady) {
             setIsRouterReady(true);
@@ -44,14 +49,14 @@ export default function MovieDetails() {
         return <Loader />
     }
 
+
     return (
         <>
             <div className="container my-12 px-6 pb-4 bg-black bg-opacity-60">
-                <InfoSection movie={movie}
-                />
-                <CastSection cast={cast}
-                />
+                <InfoSection movie={movie} />
+                <CastSection cast={cast} />
                 <ReviewSection />
+                <SimiliarMoviesSection movies={movies} />
             </div>
         </>
     )
@@ -61,7 +66,7 @@ const InfoSection = ({ movie }: { movie: Movie }) => {
     const moviePosterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
     return (
-        <section className="flex flex-col md:flex-row items-center">
+        <section className="flex flex-col items-center pb-10 border-b border-gray-500 md:flex-row">
             <div className="w-full mb-4 md:w-1/3 md:mb-0">
                 <Image
                     src={moviePosterUrl}
@@ -98,9 +103,8 @@ const CastSection = ({ cast }: { cast: object[] }) => {
     }
 
     const initialCast = cast.slice(0, 6);
-
     return (
-        <section className="my-8">
+        <section className="py-10 border-b border-gray-500">
             <h2 className="mb-4 text-2xl font-bold">Actors</h2>
             <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {initialCast.map((actor: any) => {
@@ -125,7 +129,7 @@ const CastSection = ({ cast }: { cast: object[] }) => {
 
 const ReviewSection = () => {
     return (
-        <section className="my-8">
+        <section className="py-10 border-b border-gray-500">
             <h2 className="mb-4 text-2xl font-bold">Reviews</h2>
             <div className="flex flex-col items-center justify-between md:flex-row">
                 <Review
@@ -147,6 +151,15 @@ const ReviewSection = () => {
         </section>
     );
 };
+
+const SimiliarMoviesSection = ({movies}: {movies: any}) => {
+    return (
+        <section className="py-10">
+            <h2 className="text-2xl font-bold mb-5">Similar Movies</h2>
+            {movies?.length ? <MovieCards movies={movies} /> : <p className="text-gray-400">No similar movies found...</p>}
+        </section>
+    )
+}
 
 const Tagline = ({ tagline }: { tagline: string }) => (
     <p className="text-2xl font-thin italic text-red-700 mb-5">{tagline}</p>
@@ -176,7 +189,7 @@ interface ReviewProps {
 const Review = ({ author, title, content }: ReviewProps) => (
     <div className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
         <div className="p-4 bg-white rounded-lg shadow-md">
-            <p className="mb-2 text-red-600 text-lg font-semibold">{title}sasadsasdfsdfsd</p>
+            <p className="mb-2 text-red-600 text-lg font-semibold">{title}</p>
             <p className="text-gray-500">
                 {content}
             </p>

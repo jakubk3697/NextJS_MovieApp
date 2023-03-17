@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
 import { fetchMoviesByTitle } from '@/API/moviedbAPI';
 import { useQuery } from 'react-query';
-import { MovieCard } from '@/components/MovieCard';
-import { Movie } from '@/types';
 import { Loader } from '@/components/elements/Loader';
 import MovieCards from '@/components/MovieCards';
 
