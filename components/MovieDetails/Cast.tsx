@@ -1,10 +1,9 @@
 import Image from "next/image";
 import noCardPoster from "@/public/images/no-poster.png"
 import Slider from "react-slick";
-import { slickConfig } from "@/utils/slickConfig";
+import { CastSlick } from "@/utils/slickConfig";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useRef } from "react";
 
 export const Cast = ({ cast }: { cast: object[] }) => {
     const generateActorPoster = (profile_path: string) => {
@@ -14,9 +13,7 @@ export const Cast = ({ cast }: { cast: object[] }) => {
       return noCardPoster;
     };
 
-    
-    const settings = slickConfig;
-    
+    const settings = CastSlick;
   
     return (
       <>

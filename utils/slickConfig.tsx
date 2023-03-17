@@ -1,4 +1,4 @@
-export const slickConfig = {
+export const CastSlick = {
   speed: 600,
   slidesToShow: 5,
   slidesToScroll: 5,
@@ -23,4 +23,22 @@ export const slickConfig = {
       },
     },
   ],
+};
+
+export const SnapshostsSlick = {
+  dots: false,
+  infinite: true,
+  speed: 600,
+  slidesToShow: 2,
+  slidesToScroll: 1,
+  responsive: [
+      {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            initialSlide: 1,
+          },
+      },
+  ]
 };

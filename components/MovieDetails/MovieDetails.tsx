@@ -1,11 +1,13 @@
 import { Movie, Movies } from '@/types';
 import { fetchMovieByID, fetchMovieCastByID, fetchSimiliarMovies } from '@/API/moviedbAPI';
+import { Loader } from '@/components/elements/Loader';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { Loader } from '@/components/elements/Loader';
-import { Cast } from './Cast';
+
 import { MainInfo } from './MainInfo';
+import { Cast } from './Cast';
+import { MovieGallery } from './MovieGallery';
 import { Reviews } from './Reviews';
 import { SimiliarMovies } from './SimiliarMovies';
 
@@ -24,7 +26,7 @@ export default function MovieDetails() {
     const { id } = router.query;
     const [isRouterReady, setIsRouterReady] = useState(false);
 
-    const { data: movie } = useQuery<Movie>(['movie', id], () => fetchMovieByID(Number(id)), {
+    const { data: movie, isSuccess } = useQuery<Movie>(['movie', id], () => fetchMovieByID(Number(id)), {
         enabled: isRouterReady && !!id,
     });
 
@@ -54,12 +56,17 @@ export default function MovieDetails() {
 
     return (
         <>
-            <div className="container my-12 px-6 pb-4 bg-black bg-opacity-60 overflow-hidden">
-                <MainInfo movie={movie} />
-                <Cast cast={cast} />
-                <Reviews />
-                <SimiliarMovies movies={movieData} />
-            </div>
+            { (
+                <>
+                    <div className="container my-12 px-6 pb-4 bg-black bg-opacity-60 overflow-hidden">
+                        <MainInfo movie={movie} />
+                        <Cast cast={cast} />
+                        <MovieGallery movieId={Number(id)}/>
+                        <Reviews />
+                        <SimiliarMovies movies={movieData} />
+                    </div>
+                </>
+            )}
         </>
     )
 }
