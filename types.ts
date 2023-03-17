@@ -37,3 +37,4 @@ export interface Movie {
     title: string;
     content: string;
 }
+

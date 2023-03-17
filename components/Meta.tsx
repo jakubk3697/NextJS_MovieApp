@@ -20,7 +20,7 @@ export const Meta = ({ keywords, title, description }: DefaultProps) =>{
         <Head>
             <meta name="keywords" content={keywords} />
             <meta name="description" content={description} />
-            <link rel="icon" href="/camera.png" />
+            <link rel="icon" href="/images/camera.png" />
             <title>{title}</title>
         </Head>
     )
