@@ -3,12 +3,18 @@ import { MovieCard } from '@/components/MovieCard';
 import { reactQueryFetchMovies, fetchMovies } from '@/API/moviedbAPI';
 import { useInfiniteQuery } from 'react-query';
 import { useRouter } from 'next/router';
-import { Loader } from '@/components/elements/Loader';
+
 
 interface propsContext {
     params: { movieType: string };
 }
 
+/**
+ * @description It uses the movie type from the url to fetch the movies of that type.
+ * @description It uses react-query to fetch the movies and infinite scroll to load more movies.
+ * @description First page is generated statically and the rest is fetched using react-query.
+ * @returns MoviesPage page with the movies of the selected type [popular, top_rated, upcoming, now_playing]
+ */
 export default function MoviesPage({ movies }: { movies: Movies }) {
     const router = useRouter();
     const { movieType } = router.query;

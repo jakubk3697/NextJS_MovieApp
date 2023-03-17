@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { HeaderSearchbar } from './elements/HeaderSearchbar';
 import { ThemeButton } from './elements/ThemeButton';
 
+/**
+ * @description It renders the header component with the logo, searchbar and theme button. 
+ * @description Searchbar can be used to search for movies by title.
+ * @description Theme button can be used to toggle between light and dark theme.
+ * @returns The header component with the logo, searchbar and theme button.
+ */
 export const Header = () => {
     return(
         <header className="sticky top-0 bg-black bg-opacity-70 z-10 flex items-center flex-wrap p-4">

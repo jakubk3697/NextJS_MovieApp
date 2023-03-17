@@ -2,6 +2,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 
+/**
+ * @description on small screen devices, it renders the hamburger menu icon which can be used to toggle the navbar.
+ * @description on large screen devices, it renders the navbar with the categories [Popular, Top Rated, Upcoming, Now Playing]
+ * @description categories can be used to navigate to the movies page with the selected category. 
+ * @returns The navbar component with the categories [Popular, Top Rated, Upcoming, Now Playing]
+ */
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
