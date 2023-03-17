@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Genre, MovieCardProps } from '@/types';
-import noCardPoster from '@/public/no_card_poster.png';
+import noCardPoster from '@/public/images/no-poster.png';
 import { fetchGenres } from '@/API/moviedbAPI';
 
 /**
@@ -43,7 +43,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
                     />
                     <div className="flex justify-between px-3 py-2">
                         <div className="mb-2 mr-4 text-xl font-bold">{movie.title}</div>
-                        <p className="text-gray-400 italic font-semibold">{movie.vote_average}</p>
+                        <p className="text-gray-400 italic font-semibold">{(movie.vote_average).toFixed(1)}</p>
                     </div>
                     <div className="px-3 pt-2 pb-1">
                        {movie.genre_ids.map((genre: number) => (

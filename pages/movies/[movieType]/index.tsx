@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import MovieCards from '@/components/MovieCards';
 import { Loader } from '@/components/elements/Loader';
 
-
 interface propsContext {
     params: { movieType: string };
 }

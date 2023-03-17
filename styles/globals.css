@@ -4,7 +4,7 @@
 
 body {
     position: relative;
-    background-image: url('../public/cinema_background.jpg');
+    background-image: url('../public/images/cinema_background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;

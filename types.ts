@@ -31,3 +31,9 @@ export interface Movie {
   export interface MovieCardProps {
     movie: Movie;
   }
+
+ export interface ReviewProps {
+    author: string;
+    title: string;
+    content: string;
+}
