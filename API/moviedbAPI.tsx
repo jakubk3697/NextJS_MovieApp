@@ -31,6 +31,13 @@ export const fetchMovieCastByID = async (id:number) => {
     return res.data.cast;
 }
 
+
+export const fetchMovieSnapshots = async (id:number) => {
+    const res = await axios.get(`${BASE_URL}/movie/${id}/images?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`);
+
+    return res.data.backdrops;
+}
+
 export const fetchMoviesByTitle = async (title:string) => {
     const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${title}`;
     const { data } = await axios.get(url);

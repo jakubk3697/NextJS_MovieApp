@@ -1,5 +1,5 @@
 import { Movie, Movies } from "../types";
-import { MovieCard } from "./MovieCard";
+import { MovieCard } from "./elements/MovieCard";
 
 export default function MovieCards({movies}: {movies: Movies}) {
     return (

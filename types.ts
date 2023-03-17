@@ -18,6 +18,7 @@ export interface Movie {
    * @example map((movie: Movie) => <MovieCard movie={movie} />)
    */
   export interface Movies {
+    length: any;
     map(arg0: (movie: Movie) => JSX.Element): import("react").ReactNode;
   }
   
@@ -30,3 +31,9 @@ export interface Movie {
   export interface MovieCardProps {
     movie: Movie;
   }
+
+ export interface ReviewProps {
+    author: string;
+    title: string;
+    content: string;
+}
