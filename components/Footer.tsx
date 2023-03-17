@@ -1,5 +1,7 @@
-import Image from 'next/image'
-import { imageLoader } from '@/utils/imageLoader'
+import Image from 'next/image';
+import { imageLoader } from '@/utils/imageLoader';
+import linkedin from '@/public/images/linkedin.png';
+import github from '@/public/images/github.png';
 
 /**
  * @description Footer always on the bottom of the page. It contains a copyright and links to my LinkedIn and GitHub profiles.
@@ -12,7 +14,7 @@ export const Footer = () => {
             <div className='flex pl-3 space-x-3'>
                 <a href="https://www.linkedin.com/in/jkaminski97/" target="_blank" rel="noreferrer">
                     <Image 
-                        src={"/linkedin.png"} 
+                        src={linkedin} 
                         alt="LinkedIn" 
                         width={20}
                         height={20}
@@ -23,7 +25,7 @@ export const Footer = () => {
                 </a>
                 <a href="https://github.com/jakubk3697" target="_blank" rel="noreferrer">
                     <Image 
-                        src={"/github.png"} 
+                        src={github} 
                         alt="GitHub" 
                         width={20}
                         height={20}
