@@ -1,17 +1,15 @@
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-
 export const slickConfig = {
-    speed: 300,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    dots: false,
-    infinite: true,
+  speed: 600,
+  slidesToShow: 5,
+  slidesToScroll: 5,
+  dots: false,
+  infinite: true,
   responsive: [
     {
       breakpoint: 1024,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 1,
+        slidesToScroll: 3,
         infinite: true,
         dots: false,
       },
@@ -25,5 +23,4 @@ export const slickConfig = {
       },
     },
   ],
-
 };

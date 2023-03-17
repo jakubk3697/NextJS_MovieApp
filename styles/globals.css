@@ -11,3 +11,23 @@ body {
     background-position: center;
     color: #fff;
 }
+
+
+.slick-prev,
+.slick-next {
+    font-size: 2rem;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    padding: 1rem;
+    font-size: 2rem !important;
+}
+
+.slick-prev:before {
+    margin-left: -2rem;
+}
+
+.slick-next:before {
+    margin-left: -0.5rem;
+}

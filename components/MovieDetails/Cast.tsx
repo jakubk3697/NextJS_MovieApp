@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import { slickConfig } from "@/utils/slickConfig";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useRef } from "react";
 
 export const Cast = ({ cast }: { cast: object[] }) => {
     const generateActorPoster = (profile_path: string) => {
@@ -13,12 +14,15 @@ export const Cast = ({ cast }: { cast: object[] }) => {
       return noCardPoster;
     };
 
-  
+    
     const settings = slickConfig;
+    
   
     return (
+      <>
       <section className="py-10 border-b border-gray-500">
-        <h2 className="mb-4 text-2xl font-bold">Actors</h2>
+        <h2 className="mb-4 text-2xl font-bold">Cast</h2>
+        <div className="mx-10">
         <Slider {...settings}>
           {cast.map((actor: any) => {
             return (
@@ -26,7 +30,7 @@ export const Cast = ({ cast }: { cast: object[] }) => {
                 <div className="mx-2 text-center">
                   <Image
                     src={generateActorPoster(actor.profile_path)}
-                    alt={actor.name}
+                    alt={actor.name} 
                     width={200}
                     height={225}
                     className="rounded-md mx-auto"
@@ -38,6 +42,8 @@ export const Cast = ({ cast }: { cast: object[] }) => {
             );
           })}
         </Slider>
+        </div>
       </section>
+      </>
     );
   };
