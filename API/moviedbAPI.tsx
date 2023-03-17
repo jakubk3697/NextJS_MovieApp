@@ -37,3 +37,10 @@ export const fetchMoviesByTitle = async (title:string) => {
 
     return data;
 }
+
+
+export const fetchGenres = async () => {
+    const res = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`);
+
+    return res.data.genres;
+}

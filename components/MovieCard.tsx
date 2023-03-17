@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Genre, MovieCardProps } from '@/types';
 import noCardPoster from '@/public/no_card_poster.png';
+import { fetchGenres } from '@/API/moviedbAPI';
 
 /**
  * 
@@ -13,19 +14,12 @@ import noCardPoster from '@/public/no_card_poster.png';
  * @description It uses the Link component from next to navigate to the movie page.
  * @returns MovieCard component with the movie info and movie poster.
  */
+      
 export const MovieCard = ({ movie }: MovieCardProps) => {
     const [genres, setGenres] = useState<Genre[]>([]);
 
     useEffect(() => {
-        const fetchGenres = async () => {
-          const res = await fetch(
-            `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
-          );
-          const data = await res.json();
-          setGenres(data.genres);
-        };
-    
-        fetchGenres();
+      fetchGenres().then((genres) => setGenres(genres));
       }, []);
     
       const getGenre = (id: number): string => {
