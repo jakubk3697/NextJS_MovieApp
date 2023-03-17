@@ -11,8 +11,19 @@ const roboto = Roboto({
   subsets: ['latin'],
 })
 
+/**
+ * @description It creates a new query client
+ */
 const queryClient = new QueryClient();
 
+/**
+ * 
+ * @param Component 
+ * @param pageProps
+ * @description It wraps the app with the Layout component and the react-query provider
+ * @description It also adds the roboto font and react-query provider with devtools to the app
+ * @returns The app wrapped with the Layout component and the react-query provider
+ */
 export default function App({ Component, pageProps }: AppProps) {
   return (
       <QueryClientProvider client={queryClient}>

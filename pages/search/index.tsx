@@ -4,8 +4,14 @@ import { useQuery } from 'react-query';
 import { MovieCard } from '@/components/MovieCard';
 import { Movie } from '@/types';
 import { Loader } from '@/components/elements/Loader';
-import { useCallback, useRef } from 'react';
 
+
+/**
+ * @description It uses the query from the url to fetch the movies that match the query
+ * @description It uses the useQuery hook to fetch the data client-side
+ * @description It uses the MovieCard component to display the movies
+ * @returns Movie Cards of the movies that match the search query from the url
+ */
 function SearchPage() {
     const router = useRouter();
     const { query }:any = router.query;
