@@ -1,4 +1,4 @@
-import MoviesView from "@/components/MoviesView";
+import MovieCards from "@/components/MovieCards";
 import { Movies, Movie } from "@/types";
 import { fetchMovies } from "@/API/moviedbAPI";
 
@@ -11,17 +11,22 @@ import { fetchMovies } from "@/API/moviedbAPI";
 export default function Home({movies}:{movies: Movies}) {
   return (
     <>
-      <MoviesView movies={movies} />
+      <MovieCards movies={movies} />
     </>
   )
 }
 
+/**
+ * @description It generates the first page of popular movies statically.
+ * @description revalidate is set to 1 day so that the static page is regenerated after 1 day.
+ * @returns First page of popular movies
+ */
 export async function getStaticProps() {
     const movies = await fetchMovies('popular', 1);
     return {
         props: {
             movies,
         }, 
-        revalidate: 60 * 60 * 24, // check if static page needs to be regenerated every 24 hours
+        revalidate: 60 * 60 * 24, 
     }
 }
