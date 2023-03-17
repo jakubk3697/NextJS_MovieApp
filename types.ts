@@ -1,4 +1,7 @@
 export interface Movie {
+    runtime: number;
+    genres: { id: number; name: string; }[];
+    tagline: string;
     id: number;
     title: string;
     overview: string;

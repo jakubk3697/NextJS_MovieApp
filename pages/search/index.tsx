@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { MovieCard } from '@/components/MovieCard';
 import { Movie } from '@/types';
 import { Loader } from '@/components/elements/Loader';
-import MoviesView from '@/components/MoviesView';
+import MovieCards from '@/components/MovieCards';
 
 
 /**
@@ -13,7 +13,7 @@ import MoviesView from '@/components/MoviesView';
  * @description It uses the MovieCard component to display the movies
  * @returns Movie Cards of the movies that match the search query from the url
  */
-function SearchPage() {
+export default function SearchPage() {
     const router = useRouter();
     const { query }:any = router.query;
 
@@ -33,10 +33,8 @@ function SearchPage() {
     return (
         <>
             {isSuccess && (
-                <MoviesView movies={movies} />
+                <MovieCards movies={movies} />
             )}
         </>
     )
 }
-
-export default SearchPage
