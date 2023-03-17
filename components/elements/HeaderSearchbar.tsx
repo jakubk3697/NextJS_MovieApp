@@ -29,14 +29,14 @@ export const HeaderSearchbar = () => {
             <input 
                 type="text" 
                 placeholder="Search movies..." 
-                className="w-full pr-28 py-2 pl-2 bg-transparent rounded-lg text-sm"
+                className="w-full pr-28 py-2 pl-2 bg-transparent rounded-lg text-sm over"
                 value={query} 
                 onChange={handleChange}
             >
             </input>
             <button 
                  type="submit"
-                 className="absolute top-0 right-0 bottom-0 py-2 px-4 rounded-r-lg bg-sky-700 text-sm text-white hover:opacity-90 transition-opacity "
+                 className="absolute top-0 left-full -translate-x-full bottom-0 py-2 px-4 rounded-r-lg rounded-l-none bg-sky-700 text-sm text-white hover:opacity-90 transition-opacity"
             >
                 Search
             </button>
