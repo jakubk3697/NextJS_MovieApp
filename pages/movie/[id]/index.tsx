@@ -174,13 +174,13 @@ interface ReviewProps {
 }
 
 const Review = ({ author, title, content }: ReviewProps) => (
-    <div className="w-full mb-4 md:w-1/2 md:mb-0">
+    <div className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
         <div className="p-4 bg-white rounded-lg shadow-md">
-            <p className="mb-2 text-gray-500">Posted by {author}</p>
-            <p className="mb-2 text-lg font-semibold">{title}</p>
+            <p className="mb-2 text-red-600 text-lg font-semibold">{title}sasadsasdfsdfsd</p>
             <p className="text-gray-500">
                 {content}
             </p>
+            <p className="mt-4 border-t-2 text-gray-400 italic">{author}</p>
         </div>
     </div>
 );
