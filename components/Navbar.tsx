@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { useState } from "react";
 import { FaBars } from "react-icons/fa";
+import { useState, useRef } from "react";
+import { useQuery } from "react-query";
+import { getMoviesByAI } from "@/API/openaiAPI";
 
 /**
  * @description on small screen devices, it renders the hamburger menu icon which can be used to toggle the navbar.
@@ -10,6 +12,8 @@ import { FaBars } from "react-icons/fa";
  */
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [AIPrompt, setAIPrompt] = useState('');
+  const AIInputRef = useRef<HTMLInputElement>(null);
 
   const categories = [
     { name: "Popular", path: "popular" },
@@ -22,6 +26,27 @@ export const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const fetchAIMovies = async () => {
+    const response = await getMoviesByAI({ queryKey: ['aiMovies', { AIPrompt }] });
+    return response;
+  }
+
+  const {
+    data: aiData,
+    isError: aiIsError,
+    isSuccess: aiIsSuccess,
+    isFetching: aiIsFetching,
+} = useQuery(['aiMovies', { AIPrompt }], fetchAIMovies, {
+    enabled: !!AIPrompt,
+});
+
+const handleAISerachClick = () => {
+  if (AIInputRef.current) {
+    setAIPrompt(AIInputRef.current.value);
+  }
+}
+
+  
   return (
     <nav className="flex flex-col py-2 px-2 justify-between mt-10 mb-8 rounded-xl bg-gray-900">
       <div className="relative flex items-center justify-between">
@@ -58,13 +83,15 @@ export const Navbar = () => {
         <div className="relative w-full lg:w-2/3">
           <button 
             className="absolute top-0 right-0 bottom-0 px-1 py-2 text-sm font-semibold italic rounded-l-none bg-gray-800  text-white rounded-r-md hover:bg-green-500 md:text-base"
+            onClick={handleAISerachClick}
           >
             Match movies
           </button>
           <input
             type="text"
             className="py-2 px-2 pr-28 w-full text-sm bg-gray-700 text-white rounded-md md:text-base"
-            placeholder="Give movie taste tips and match movies from AI..."
+            placeholder="Give movie taste tips and get matched movies from AI..."
+            ref={AIInputRef}
           />
         </div>
       </div>
