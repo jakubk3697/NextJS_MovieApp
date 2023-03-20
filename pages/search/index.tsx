@@ -4,7 +4,6 @@ import { useQuery } from 'react-query';
 import { Loader } from '@/components/elements/Loader';
 import MovieCards from '@/components/MovieCards';
 
-
 /**
  * @description It uses the query from the url to fetch the movies that match the query
  * @description It uses the useQuery hook to fetch the data client-side

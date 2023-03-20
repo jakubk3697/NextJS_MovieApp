@@ -2,7 +2,7 @@ import axios from "axios";
 
 const AI_APIKEY = process.env.NEXT_PUBLIC_OPENAI_API_SECOND_KEY;
 
-export const getMoviesByAI = async ({ queryKey }: any) => {
+export const getMovieTitlesByAI = async ({ queryKey }: any) => {
     const [_key, { AIPrompt  }] = queryKey;
     const headers = {
         'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ export const getMoviesByAI = async ({ queryKey }: any) => {
 
     try {
         const response = await axios.post('https://api.openai.com/v1/completions', data, { headers });
-        const JSONResponse = JSON.parse(response.data.choices[0].text);
+        const JSONResponse = response.data.choices[0].text
         return JSONResponse;
     } catch (error) {
         console.error(error);

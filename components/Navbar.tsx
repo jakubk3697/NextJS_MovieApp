@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FaBars } from "react-icons/fa";
 import { useState, useRef } from "react";
 import { useQuery } from "react-query";
-import { getMoviesByAI } from "@/API/openaiAPI";
+import { getMovieTitlesByAI } from "@/API/openaiAPI";
 
 /**
  * @description on small screen devices, it renders the hamburger menu icon which can be used to toggle the navbar.
@@ -27,7 +27,7 @@ export const Navbar = () => {
   };
 
   const fetchAIMovies = async () => {
-    const response = await getMoviesByAI({ queryKey: ['aiMovies', { AIPrompt }] });
+    const response = await getMovieTitlesByAI({ queryKey: ['aiMovies', { AIPrompt }] });
     return response;
   }
 
