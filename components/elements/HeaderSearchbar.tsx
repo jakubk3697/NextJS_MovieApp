@@ -1,37 +1,27 @@
-import Link from 'next/link';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
-
-interface IEvent {
-    target: {
-        value: string
-    }
-}
+import { useRef } from 'react';
 
 export const HeaderSearchbar = () => {
     const router = useRouter();
-    const [query, setQuery] = useState('');
-
-    const handleChange = (e: IEvent) => {
-      setQuery(e.target.value)
-    }
+    const inpRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.push(`/search?query=${encodeURIComponent(query)}`);
+        if(inpRef.current) {
+            router.push(`/search?query=${encodeURIComponent(inpRef.current.value)}`);
+        }
     }
 
     return(
         <form 
             className="relative flex items-center w-full mt-5 font-semibold text-gray-700 bg-gray-200 rounded-lg md:w-1/2 md:order-1 md:mt-0"
-            onSubmit={(e) => handleSubmit(e)}
+            onSubmit={handleSubmit}
         >
             <input 
                 type="text" 
                 placeholder="Search movies..." 
                 className="w-full pr-28 py-2 pl-2 bg-transparent rounded-lg text-sm over"
-                value={query} 
-                onChange={handleChange}
+                ref={inpRef}
             >
             </input>
             <button 

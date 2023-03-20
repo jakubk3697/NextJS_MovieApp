@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { useState } from "react";
 import { FaBars } from "react-icons/fa";
+import { useState, useRef } from "react";
+import { AISearchbar } from "./elements/AISearchbar";
 
 /**
  * @description on small screen devices, it renders the hamburger menu icon which can be used to toggle the navbar.
@@ -21,7 +22,7 @@ export const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  
   return (
     <nav className="flex flex-col py-2 px-2 justify-between mt-10 mb-8 rounded-xl bg-gray-900">
       <div className="relative flex items-center justify-between">
@@ -54,20 +55,7 @@ export const Navbar = () => {
       >
 
       </div>
-      <div className="w-full flex justify-between items-center mx-auto pb-3 px-2 mt-2">
-        <div className="relative w-full lg:w-2/3">
-          <button 
-            className="absolute top-0 right-0 bottom-0 px-1 py-2 text-sm font-semibold italic rounded-l-none bg-gray-800  text-white rounded-r-md hover:bg-green-500 md:text-base"
-          >
-            Match movies
-          </button>
-          <input
-            type="text"
-            className="py-2 px-2 pr-28 w-full text-sm bg-gray-700 text-white rounded-md md:text-base"
-            placeholder="Give movie taste tips and match movies from AI..."
-          />
-        </div>
-      </div>
+      <AISearchbar />
     </nav>
   );
 };

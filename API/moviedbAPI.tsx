@@ -26,34 +26,34 @@ export const fetchMovieByID = async (id:number) => {
 }
 
 export const fetchMovieCastByID = async (id:number) => {
-    const res =  await axios.get(`${BASE_URL}/movie/${id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`);
+    const res =  await axios.get(`${BASE_URL}/movie/${id}/credits?api_key=${API_KEY}`);
     
     return res.data.cast;
 }
 
 
 export const fetchMovieSnapshots = async (id:number) => {
-    const res = await axios.get(`${BASE_URL}/movie/${id}/images?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`);
+    const res = await axios.get(`${BASE_URL}/movie/${id}/images?api_key=${API_KEY}`);
 
     return res.data.backdrops;
 }
 
-export const fetchMoviesByTitle = async (title:string) => {
+export const fetchMovieByTitle = async (title:string) => {
     const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${title}`;
     const { data } = await axios.get(url);
 
     return data;
 }
 
-
 export const fetchGenres = async () => {
-    const res = await axios.get(`${BASE_URL}/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`);
+    const res = await axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`);
 
     return res.data.genres;
 }
 
 export const fetchSimiliarMovies = async (id:number) => {
-    const res = await axios.get(`${BASE_URL}/movie/${id}/similar?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`);
+    const res = await axios.get(`${BASE_URL}/movie/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`);
 
     return res.data.results;
 }
+
