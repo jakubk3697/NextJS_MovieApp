@@ -52,8 +52,12 @@ export default function AIMatchPage() {
         return movies;
     }
 
-    const isRouteSameAsPrevious = useIsRouteSameAsPrevious();
-
+    /**
+     * @description it uses initQueryMovieTitlesByAI function to fetch movie titles from OpenAI API
+     * @description it uses AIquery from url as a queryKey
+     * @description it is enabled only if AIquery is not empty
+     * @description staleTime is 1 hour (data treated as fresh for 1 hour to prevent refetch data on each refresh or when user navigates back to this page)
+     */
     const {
         data: aiMovieTitles,
         isFetching: aiTitlesIsFetching,
@@ -61,10 +65,17 @@ export default function AIMatchPage() {
     } = useQuery({
         queryKey: ['aiMovieTitles', { AIquery }],
         queryFn: initQueryMovieTitlesByAI,
-        enabled: !!AIquery,
+        enabled: !!AIquery && AIquery.length > 6,
         staleTime: 60 * 60 * 1000, // 1 hour
     });
     
+
+    /**
+     * @description it uses initFetchMoviesByTitle function to fetch movies from MovieDB API
+     * @description it uses aiMovieTitles from previous query as a queryKey
+     * @description it is enabled only if aiMovieTitles is not empty
+     * @description staleTime is 1 hour (data treated as fresh for 1 hour to prevent refetch data on each refresh or when user navigates back to this page)
+    */
     const {
         data: aiMovies,
         isError: aiMoviesIsError,
