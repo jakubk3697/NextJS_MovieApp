@@ -3,11 +3,12 @@ import { useRef } from 'react';
 
 export const AISearchbar = () => {
     const router = useRouter();
+    const { AIquery }: any = router.query;
     const AIInputRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(AIInputRef.current) {
+        if(AIInputRef.current && AIInputRef.current.value !== AIquery) {
             router.push(`/match?AIquery=${encodeURIComponent(AIInputRef.current.value)}`);
         }
     }
