@@ -1,5 +1,13 @@
 import { ReviewProps } from "@/types";
 
+/**
+ * 
+ * @returns {JSX.Element} - returns a section with movie reviews
+ * @description It generates a section with movie reviews from users of the app 
+ * @todo - add functionality to add reviews
+ * @todo - add functionality to edit reviews
+ * @todo - add functionality to delete reviews
+ */
 export const Reviews = () => {
     return (
         <section className="py-10 border-b border-gray-500">
