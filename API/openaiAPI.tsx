@@ -2,8 +2,8 @@ import axios from "axios";
 
 const AI_APIKEY = process.env.NEXT_PUBLIC_OPENAI_API_SECOND_KEY;
 
-export const getMovieTitlesByAI = async ({ queryKey }: any) => {
-    const [_key, { AIPrompt  }] = queryKey;
+export const queryMovieTitlesByAI = async ({AIquery}:{AIquery: string}) => {
+
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AI_APIKEY}`,
@@ -14,7 +14,7 @@ export const getMovieTitlesByAI = async ({ queryKey }: any) => {
         'prompt': `
         Read and parse the value from the following INPUT, which contains information sent by the user about their movie taste, thenthen return the six movie titles that best match that input. If you don't understand the INPUT return the most popular movies of that year. 
         Return only the titles in the JavaScript array, nothing else is included.
-        INPUT={${AIPrompt }}
+        INPUT={${AIquery}}
         `,
         'temperature': 0.3,
         'max_tokens': 500,

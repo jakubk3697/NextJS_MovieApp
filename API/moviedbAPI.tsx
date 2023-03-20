@@ -45,14 +45,6 @@ export const fetchMovieByTitle = async (title:string) => {
     return data;
 }
 
-export const fetchMoviesByTitles = async (titles:string[]) => {
-    const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${titles.join('|')}`;
-    const { data } = await axios.get(url);
-
-    return data;
-}
-
-
 export const fetchGenres = async () => {
     const res = await axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`);
 
