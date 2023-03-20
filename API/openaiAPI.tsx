@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const AI_APIKEY = process.env.NEXT_PUBLIC_OPENAI_API_SECOND_KEY;
+const AI_APIKEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 
 export const queryMovieTitlesByAI = async ({AIquery}:{AIquery: string}) => {
 
