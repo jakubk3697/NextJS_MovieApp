@@ -15,7 +15,7 @@ export default function Custom404() {
         <section className=" h-2/3 p-6 mt-10 w-fit">
             <h1 className="text-4xl font-semibold text-red-700 mb-6">404 - Page Not Found</h1>
             <Image
-                src={'/404.gif'}
+                src={'/images/404.gif'}
                 alt="404 - Not Found"
                 width={500}
                 height={500}

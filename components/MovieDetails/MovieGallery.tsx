@@ -30,7 +30,6 @@ export const MovieGallery = ({ movieId }: { movieId: number }) => {
                 <div className="mx-10">
                     <Slider {...settings}>
                         {snapshots.map((snapshot: Snapshot) => {
-                            console.log(snapshot);
                             return (
                                 <div key={snapshot.file_path}>
                                 <div className="mx-2">
