@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { fetchMoviesByTitle } from '@/API/moviedbAPI';
+import { fetchMovieByTitle } from '@/API/moviedbAPI';
 import { useQuery } from 'react-query';
 import { Loader } from '@/components/elements/Loader';
 import MovieCards from '@/components/MovieCards';
@@ -16,7 +16,7 @@ export default function SearchPage() {
 
     const { data, isFetching, isError, isSuccess } = useQuery(
         ['movies', { query }],
-        () => fetchMoviesByTitle(query),
+        () => fetchMovieByTitle(query),
         {
             enabled: !!query,
         }
@@ -29,6 +29,7 @@ export default function SearchPage() {
 
     return (
         <>
+            <h1 className="text-3xl text-gray-200 mb-8">Search Results:</h1>
             {isSuccess && (
                 <MovieCards movies={movies} />
             )}

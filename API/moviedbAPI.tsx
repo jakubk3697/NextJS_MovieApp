@@ -38,8 +38,15 @@ export const fetchMovieSnapshots = async (id:number) => {
     return res.data.backdrops;
 }
 
-export const fetchMoviesByTitle = async (title:string) => {
+export const fetchMovieByTitle = async (title:string) => {
     const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${title}`;
+    const { data } = await axios.get(url);
+
+    return data;
+}
+
+export const fetchMoviesByTitles = async (titles:string[]) => {
+    const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${titles.join('|')}`;
     const { data } = await axios.get(url);
 
     return data;
@@ -57,3 +64,4 @@ export const fetchSimiliarMovies = async (id:number) => {
 
     return res.data.results;
 }
+

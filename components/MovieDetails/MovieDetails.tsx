@@ -26,7 +26,7 @@ export default function MovieDetails() {
     const { id } = router.query;
     const [isRouterReady, setIsRouterReady] = useState(false);
 
-    const { data: movie, isSuccess } = useQuery<Movie>(['movie', id], () => fetchMovieByID(Number(id)), {
+    const { data: movie } = useQuery<Movie>(['movie', id], () => fetchMovieByID(Number(id)), {
         enabled: isRouterReady && !!id,
     });
 

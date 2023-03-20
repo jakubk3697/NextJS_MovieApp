@@ -22,7 +22,7 @@ export const getMovieTitlesByAI = async ({ queryKey }: any) => {
 
     try {
         const response = await axios.post('https://api.openai.com/v1/completions', data, { headers });
-        const JSONResponse = response.data.choices[0].text
+        const JSONResponse = response.data.choices[0].text;
         return JSONResponse;
     } catch (error) {
         console.error(error);

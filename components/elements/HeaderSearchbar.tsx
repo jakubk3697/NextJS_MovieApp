@@ -1,12 +1,5 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
-
-interface IEvent {
-    target: {
-        value: string
-    }
-}
 
 export const HeaderSearchbar = () => {
     const router = useRouter();
