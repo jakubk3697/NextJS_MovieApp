@@ -15,6 +15,12 @@ interface Snapshot {
     width: number;
 }
 
+/**
+ * 
+ * @param {number} movieId - id of the movie
+ * @returns {JSX.Element} - returns a section with movie snapshots
+ * @description It generates a slick slider with movie snapshots and their profile pictures
+ */
 export const MovieGallery = ({ movieId }: { movieId: number }) => {
 
     const { data: snapshots } = useQuery<Snapshot[]>(['movieSnapshots', movieId], () => fetchMovieSnapshots(Number(movieId)), {

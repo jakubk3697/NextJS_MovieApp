@@ -2,6 +2,13 @@ import Image from 'next/image';
 import { BsBookmarkStar } from 'react-icons/bs';
 import { Movie } from '@/types';
 
+
+/**
+ * 
+ * @param {object} movie - object with movie details
+ * @returns {JSX.Element} - returns a section with movie details  
+ * @description It generates a section with movie details like poster, title, overview, tagline, genres, runtime and release date
+ */
 export const MainInfo = ({ movie }: { movie: Movie }) => {
     const moviePosterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
