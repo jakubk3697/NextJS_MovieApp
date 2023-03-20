@@ -2,8 +2,14 @@ import axios from "axios";
 
 const AI_APIKEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 
-export const queryMovieTitlesByAI = async ({AIquery}:{AIquery: string}) => {
-
+/**
+ * 
+ * @param {string} AIquery - query from url taken from 'match' page
+ * @returns {Promise<string>} - stringified array of movie titles from OpenAI API
+ * @description It sends prompt as POST request to the OpenAI API with included query from url taken from 'match' page and returns stringified array of movie titles which are 
+ *            best fit for the query
+ */
+export const queryMovieTitlesByAI = async ({AIquery}: {AIquery: string}) => {
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AI_APIKEY}`,

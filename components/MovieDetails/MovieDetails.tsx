@@ -18,7 +18,6 @@ import { SimiliarMovies } from './SimiliarMovies';
  * @description UseEffect is used to set the state of the router to true when the router is ready.
  * @description *Important: Both queries are enabled only when the router is ready and the id is available.
  * @returns MovieDetails page with the details of the movie and the cast of the movie
- * @todo Add a button to add the movie to the user's favorites
  * 
  */
 export default function MovieDetails() {
