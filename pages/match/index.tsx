@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { queryMovieTitlesByAI } from '@/API/openaiAPI';
 import {fetchMovieByTitle} from '@/API/moviedbAPI';  
 import { Loader } from '@/components/elements/Loader';
 import MovieCards from '@/components/MovieCards';
+import {useIsRouteSameAsPrevious} from '@/hooks/useIsRouteSameAsPrevious';
+
+
 
 /**
  * @description It uses router to get query from url and then uses it to fetch movie titles from OpenAI API using React Query.
@@ -15,8 +18,9 @@ import MovieCards from '@/components/MovieCards';
 export default function AIMatchPage() {
     const router = useRouter();
     const { AIquery }: any = router.query;
-
+    
     const [isRouterReady, setIsRouterReady] = useState(false);
+    
     
     /**
      * 
@@ -48,6 +52,8 @@ export default function AIMatchPage() {
         return movies;
     }
 
+    const isRouteSameAsPrevious = useIsRouteSameAsPrevious();
+
     const {
         data: aiMovieTitles,
         isFetching: aiTitlesIsFetching,
@@ -55,9 +61,10 @@ export default function AIMatchPage() {
     } = useQuery({
         queryKey: ['aiMovieTitles', { AIquery }],
         queryFn: initQueryMovieTitlesByAI,
-        enabled: !!AIquery && isRouterReady,
+        enabled: !!AIquery,
+        staleTime: 60 * 60 * 1000, // 1 hour
     });
-
+    
     const {
         data: aiMovies,
         isError: aiMoviesIsError,
@@ -66,8 +73,10 @@ export default function AIMatchPage() {
     } = useQuery({
         queryKey: ['aiMovies', { aiMovieTitles }],
         queryFn: initFetchMoviesByTitle,
-        enabled: !!aiMovieTitles && isRouterReady,
+        enabled: !!aiMovieTitles,
+        staleTime: 60 * 60 * 1000, // 1 hour
     });
+    
     
 
     /**
@@ -85,12 +94,11 @@ export default function AIMatchPage() {
     if (!isRouterReady) {
         return null;
     }
-
-    if (aiTitlesIsError || aiMoviesIsError) return router.push('/404');
     
     return (
         <>
             <h1 className="mb-10 text-2xl font-semibold text-white md:text-3xl">Movies matched by AI:</h1>
+            {aiTitlesIsError || aiMoviesIsError && <p className="text-gray-200 text-l">Nothing found...</p>}
             {aiMoviesIsFetching || aiTitlesIsFetching && <Loader/>}
             {aiMoviesIsSuccess && <MovieCards movies={aiMovies} />}
         </>
