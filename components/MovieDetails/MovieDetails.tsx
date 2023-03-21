@@ -10,6 +10,7 @@ import { Cast } from './Cast';
 import { MovieGallery } from './MovieGallery';
 import { Reviews } from './Reviews';
 import { SimiliarMovies } from './SimiliarMovies';
+import { CommentModal } from '../elements/CommentModal';
 
 
 /**

@@ -1,4 +1,6 @@
 import { ReviewProps } from "@/types";
+import { CommentModal } from "../elements/CommentModal";
+import {useState} from "react";
 
 /**
  * 
@@ -9,10 +11,16 @@ import { ReviewProps } from "@/types";
  * @todo - add functionality to delete reviews
  */
 export const Reviews = () => {
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+    const toggleModalView = () => {
+        setIsModalOpen(!isModalOpen);
+    }
+
     return (
-        <section className="py-10 border-b border-gray-500">
+        <section className="relative py-10 border-b border-gray-500">
             <h2 className="mb-4 text-2xl font-bold">Reviews</h2>
-            <div className="flex flex-col items-center justify-between md:flex-row">
+            <div className="flex flex-col items-center justify-between mb-10 md:flex-row">
                 <Review
                     author="John Doe"
                     title="This movie is awesome"
@@ -29,6 +37,18 @@ export const Reviews = () => {
                     content="I liked the movie but it could have been better. I would recommend it to my friends."
                 />
             </div>
+            <button
+                type="button"
+                className={`${isModalOpen ? "hidden" : "block"}
+                absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 text-white bg-blue-700 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+                onClick={toggleModalView}    
+            >
+                Add a review
+            </button>
+            <CommentModal 
+                isModalOpen={isModalOpen}
+                toggleModalView={toggleModalView}
+            />
         </section>
     );
 };
