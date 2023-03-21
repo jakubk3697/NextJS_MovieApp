@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { FaBars } from "react-icons/fa";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { AISearchbar } from "./elements/AISearchbar";
+import { categories } from "@/utils/categories";
 
 /**
  * @description on small screen devices, it renders the hamburger menu icon which can be used to toggle the navbar.
@@ -11,13 +12,6 @@ import { AISearchbar } from "./elements/AISearchbar";
  */
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const categories = [
-    { name: "Popular", path: "popular" },
-    { name: "Top Rated", path: "top_rated" },
-    { name: "Upcoming", path: "upcoming" },
-    { name: "Now Playing", path: "now_playing" },
-  ];
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
