@@ -18,7 +18,7 @@ export const queryMovieTitlesByAI = async ({AIquery}: {AIquery: string}) => {
     const data = {
         'model': "text-davinci-003",
         'prompt': `
-        Read and parse the value from the following INPUT, which contains information sent by the user about their movie taste, thenthen return the six movie titles that best match that input. If you don't understand the INPUT return the most popular movies of that year. 
+        Read and parse the value from the following INPUT, which contains information sent by the user about their movie taste, thenthen return the six movie titles that best match that input. If you don't understand the INPUT return the random most liked movies of this year. 
         Return only the titles in the JavaScript array, nothing else is included.
         INPUT={${AIquery}}
         `,

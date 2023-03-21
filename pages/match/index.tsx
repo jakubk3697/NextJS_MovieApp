@@ -5,7 +5,7 @@ import { queryMovieTitlesByAI } from '@/API/openaiAPI';
 import {fetchMovieByTitle} from '@/API/moviedbAPI';  
 import { Loader } from '@/components/elements/Loader';
 import MovieCards from '@/components/MovieCards';
-import {useIsRouteSameAsPrevious} from '@/hooks/useIsRouteSameAsPrevious';
+import { Meta } from '@/components/Meta';
 
 
 
@@ -35,7 +35,7 @@ export default function AIMatchPage() {
     }
     
     /**
-     * @returns {Promise<Array>} - array of movies
+     * @returns array of movies as Promise
      * @description it uses movie titles from first query to fetch movies from MovieDB API and returns array of movies
      * @description it uses Promise.all to fetch all movies at once
      * @description it uses possibleMoviesObj.results[0] because MovieDB API returns array of possible movies and we want to get the first one
@@ -108,7 +108,12 @@ export default function AIMatchPage() {
     
     return (
         <>
-            <h1 className="mb-10 text-2xl font-semibold text-white md:text-3xl">Movies matched by AI:</h1>
+            <Meta
+                title="Movies matched by AI"
+                description="Movies matched by AI using OpenAI API and MovieDB API"
+                keywords="AI, OpenAI, MovieDB, movies, matched, match, movie, movie match, movie matched"
+            />
+            <h1 className="mb-10 mx-10 text-2xl text-white md:text-3xl">Matched by AI:</h1>
             {aiTitlesIsError || aiMoviesIsError && <p className="text-gray-200 text-l">Nothing found...</p>}
             {aiMoviesIsFetching || aiTitlesIsFetching && <Loader/>}
             {aiMoviesIsSuccess && <MovieCards movies={aiMovies} />}
