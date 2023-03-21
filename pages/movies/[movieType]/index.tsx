@@ -4,6 +4,8 @@ import { useInfiniteQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import MovieCards from '@/components/MovieCards';
 import { Loader } from '@/components/elements/Loader';
+import { Meta } from '@/components/Meta';
+import { categories } from '@/utils/categories';
 
 interface propsContext {
     params: { movieType: string };
@@ -48,13 +50,33 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
      */
     const movieData = data ? data.pages.flatMap((page) => page.results) : movies;
 
+    /**
+     * 
+     * @returns The name of the category from the categoryPaths array.
+     * @description It is used to set the title of the page.
+     */
+    const generateCurrentPageName = () => {
+        const categoryPath = categories.find((category) => category.path === movieType);
+        return categoryPath?.name;
+    }
+
+    /**
+     * @description It finds the name of the category from the categoryPaths array.
+     * @description It is used to set the title of the page.
+     */
+  
     if (isError) return router.push('/404');
     if (isFetching && !isFetchingNextPage) return <Loader />;
-
+    
     return (
         <>
             {isSuccess && (
                 <>
+                    <Meta 
+                        title={generateCurrentPageName()}
+                        description={`List of ${generateCurrentPageName()} movies`}
+                        keywords={`movies, video, ${generateCurrentPageName()} movies, movies library`}
+                    />
                     <MovieCards movies={movieData} />
                     <button
                         onClick={() => fetchNextPage()}
@@ -87,7 +109,7 @@ export async function getStaticProps(context: propsContext) {
         props: {
             movies,
         },
-        revalidate: 60 * 60 * 24, 
+        revalidate: 60 * 60 * 24,
     }
 }
 
