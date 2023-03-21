@@ -14,10 +14,10 @@ import { ThemeContext } from '@/contexts/theme';
  */
 export const Header = ({handleTheme}: {handleTheme: ChangeEventHandler<HTMLInputElement>}) => {
     const theme = useContext(ThemeContext);
-    const themeBgColor = theme === 'dark' ? 'bg-gray-black bg-opacity-50' : 'bg-gray-200 bg-opacity-80';
+    const themeBgColor = theme === 'dark' ? 'bg-black' : 'bg-gray-200 ';
     const themeTextColor = theme === 'dark' ? 'text-gray-300' : 'text-black';
     return(
-        <header className={`${themeBgColor} sticky top-0 z-10 flex items-center flex-wrap p-4 rounded-xl`}>
+        <header className={`${themeBgColor} bg-opacity-80 sticky top-0 z-10 flex items-center flex-wrap p-4 rounded-xl`}>
             <Link href={'/'} className="flex pr-4 hover:opacity-90 transition-opacity">
                     <BiCameraMovie className={`${themeTextColor} mr-1 text-4xl`} />
                     <h1 className={`${themeTextColor} text-3xl font-semibold tracking-wider`}>Movie App</h1>
