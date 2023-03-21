@@ -1,11 +1,9 @@
 # 🎥MovieApp
+###  A efficient and clean application with movies and no ads, which includes mechanisms for personalizing videos using an AI engine. 
 
 
-## Problem to solve
-Very often I'd like to watch a movie but I have no specific ideas about genre, actors or year of the film. I was looking for an app where I could answer some out-of-the-box questions, about my mood, some thoughts etc. and be able to easily get movies that would match my answers. My second idea is to be able to give prompts to AI and receive ready-made cards with videos and necessary data.
-
-## 💡Idea
-I created initial layout on the Miro platform. Basic concepts:
+## 💡Idea 
+I want to include basic functionalities in first MVP:
 - **Video matched by AI** - use AI engine to match the films by the user prompt in search engine.
 - **Menu with categories** - options to choose categories of films which we want to watch. 
 - **Cards including film details** - after choosing the category, the user will see a list of cards with the film title, genre and rating. The user can click on the card and see more details about the film.
