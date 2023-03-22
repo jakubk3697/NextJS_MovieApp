@@ -22,7 +22,6 @@ export interface Movie {
     map(arg0: (movie: Movie) => JSX.Element): import("react").ReactNode;
   }
   
-  
   export interface Genre {
     id: number;
     name: string;
@@ -33,8 +32,18 @@ export interface Movie {
   }
 
  export interface CommentProps {
+    id: string;
     author: string;
     title: string;
     content: string;
 }
 
+export interface CommentsProps {
+    comments: CommentProps[];
+}
+
+export interface CommentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onAddComment: (commentData: { title: string | undefined; content: string | undefined; author: string | undefined; }) => void;
+}

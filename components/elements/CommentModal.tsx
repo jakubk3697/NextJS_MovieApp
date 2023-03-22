@@ -1,13 +1,11 @@
-
-
-interface CommentModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onAddComment: (commentData: { title: string | undefined; content: string | undefined; author: string | undefined; }) => void;
-}
-
 import { useRef } from 'react';
+import { useRouter } from 'next/router';
+import {CommentModalProps} from '@/types';
+
 export const CommentModal = ({isOpen, onClose, onAddComment}: CommentModalProps) => {
+    const Router = useRouter();
+    const { id } = Router.query;
+
     const titleRef = useRef<HTMLInputElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
@@ -25,6 +23,11 @@ export const CommentModal = ({isOpen, onClose, onAddComment}: CommentModalProps)
         };
 
         onAddComment(commentData);
+        onClose();
+        titleRef.current!.value = '';
+        contentRef.current!.value = '';
+        authorRef.current!.value = '';
+        Router.push(`/movie/${id}`); // temporary solution
     }
 
     return (
