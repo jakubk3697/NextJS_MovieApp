@@ -8,7 +8,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
         const data = req.body;
         // const {title, content, author} = data;
 
-        const client = await MongoClient.connect("mongodb+srv://jakubkaminski3697:z2Wz7uX9BJUrJIqI@nextjs-database.s5fpba6.mongodb.net/comments?retryWrites=true&w=majority");
+        const client = await MongoClient.connect("mongodb+srv://jakubkaminski3697:60xLW30BfKCjgB3Z@nextjs-database.s5fpba6.mongodb.net/comments?retryWrites=true&w=majority");
 
         const db = client.db();
         const commentsCollection = db.collection('comments');

@@ -12,12 +12,21 @@ interface CustomInputProps {
 
 export const CommentModal = ({ isModalOpen, toggleModalView }: CommentModalProps) => {
     const titleRef = useRef<HTMLInputElement>(null);
-    const contentRef = useRef<HTMLInputElement>(null);
+    const contentRef = useRef<HTMLTextAreaElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
 
     const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(authorRef.current?.value);
+        const title = titleRef.current?.value;
+        const content = contentRef.current?.value;
+        const author = authorRef.current?.value;
+
+        const commentData = {
+            title,
+            content,
+            author,
+        };
+
     }
 
     return (
@@ -48,11 +57,11 @@ export const CommentModal = ({ isModalOpen, toggleModalView }: CommentModalProps
                         htmlFor="content"
                         className="mb-2 text-sm font-bold text-gray-700"
                     >
-                        content
+                        Content
                     </label>
-                    <input
-                        type="text"
-                        id="title"
+                    <textarea
+                        name="content"
+                        id="content"
                         className="px-4 py-2 mb-4 text-gray-700 bg-gray-200 border-none rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white"
                         ref={contentRef}
                     />
@@ -63,7 +72,7 @@ export const CommentModal = ({ isModalOpen, toggleModalView }: CommentModalProps
                         htmlFor="title"
                         className="mb-2 text-sm font-bold text-gray-700"
                     >
-                        Title
+                        Author
                     </label>
                     <input
                         type="text"
