@@ -1,8 +1,16 @@
 import { useRef } from 'react';
 import { useRouter } from 'next/router';
-import {CommentModalProps} from '@/types';
+import { CommentFormProps } from '@/types';
 
-export const CommentModal = ({isOpen, onClose, onAddComment}: CommentModalProps) => {
+
+/**
+ * @param isOpen is boolean value that determines if the modal is open or not
+ * @param onClose is a function that closes/open the modal
+ * @param onAddComment is props that is passed from the parent component. It is a function that adds a comment to the database
+ * @description Contains a form with data which is passed to the onAddComment function to add comment to the database
+ * @todo add form validation to prevent sending unnecessary data to the database
+ */
+export const CommentForm = ({isOpen, onClose, onAddComment}: CommentFormProps) => {
     const Router = useRouter();
     const { id } = Router.query;
 
@@ -10,6 +18,10 @@ export const CommentModal = ({isOpen, onClose, onAddComment}: CommentModalProps)
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
 
+    /**
+     * @param e is a React.FormEvent<HTMLFormElement> object
+     * @description This function is a handler for the form submit event. It takes the data from the form and passes it to the onAddComment function
+     */
     const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const title = titleRef.current?.value;
@@ -27,7 +39,8 @@ export const CommentModal = ({isOpen, onClose, onAddComment}: CommentModalProps)
         titleRef.current!.value = '';
         contentRef.current!.value = '';
         authorRef.current!.value = '';
-        Router.push(`/movie/${id}`); // temporary solution
+
+        Router.push(`/movie/${id}`); // *temporary solution to refresh the page and see added comment
     }
 
     return (

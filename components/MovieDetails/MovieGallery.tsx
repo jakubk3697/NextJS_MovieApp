@@ -18,8 +18,8 @@ interface Snapshot {
 /**
  * 
  * @param {number} movieId - id of the movie
- * @returns {JSX.Element} - returns a section with movie snapshots
  * @description It generates a slick slider with movie snapshots and their profile pictures
+ * @returns returns a section with movie snapshots
  */
 export const MovieGallery = ({ movieId }: { movieId: number }) => {
 
