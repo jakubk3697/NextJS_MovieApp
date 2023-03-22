@@ -13,6 +13,20 @@ import {useState} from "react";
 export const Reviews = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+    async function addCommentHandler(enteredCommentData: any) {
+        const response = await fetch('/api/new-comment', {
+            method: 'POST',
+            body: JSON.stringify(enteredCommentData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        console.log(data);
+    }
+
     const toggleModalView = () => {
         setIsModalOpen(!isModalOpen);
     }
@@ -46,8 +60,9 @@ export const Reviews = () => {
                 Add a review
             </button>
             <CommentModal 
-                isModalOpen={isModalOpen}
-                toggleModalView={toggleModalView}
+                isOpen={isModalOpen}
+                onClose={toggleModalView}
+                onAddComment={addCommentHandler}
             />
         </section>
     );

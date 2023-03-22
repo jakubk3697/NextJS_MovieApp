@@ -1,16 +1,13 @@
-import { useRef } from 'react';
+
 
 interface CommentModalProps {
-    isModalOpen: boolean;
-    toggleModalView: () => void;
+    isOpen: boolean;
+    onClose: () => void;
+    onAddComment: (commentData: { title: string | undefined; content: string | undefined; author: string | undefined; }) => void;
 }
 
-interface CustomInputProps {
-    title: string;
-    ref: any;
-}
-
-export const CommentModal = ({ isModalOpen, toggleModalView }: CommentModalProps) => {
+import { useRef } from 'react';
+export const CommentModal = ({isOpen, onClose, onAddComment}: CommentModalProps) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
@@ -27,11 +24,12 @@ export const CommentModal = ({ isModalOpen, toggleModalView }: CommentModalProps
             author,
         };
 
+        onAddComment(commentData);
     }
 
     return (
         <form
-            className={`${isModalOpen ? "block" : "hidden"}  mx-auto py-5 mt-5 md:w-2/3`}
+            className={` ${isOpen ? "block" : "hidden"} mx-auto py-5 mt-5 md:w-2/3`}
             onSubmit={submitHandler}
         >
             <div className="flex flex-col items-center justify-center w-full h-full p-4 bg-white rounded-lg shadow-md">
@@ -86,7 +84,7 @@ export const CommentModal = ({ isModalOpen, toggleModalView }: CommentModalProps
                     <button
                         type="button"
                         className="px-4 py-2 text-white bg-red-500 rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
-                        onClick={toggleModalView}
+                        onClick={onClose}
                     >
                         Cancel
                     </button>
