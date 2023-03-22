@@ -15,7 +15,6 @@ import { MovieGallery } from "@/components/MovieDetails/MovieGallery";
 import { Comments } from "@/components/MovieDetails/Comments"; 
 import { SimiliarMovies } from "@/components/MovieDetails/SimiliarMovies";
 
-
 /**
  * @description It uses the movie id from the url to fetch the movie details. 
  * @description Two queries are used to fetch the data. One for the movie details and the other for the cast.
@@ -79,11 +78,13 @@ export default function MovieDetails({comments}: CommentsProps) {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps(context: any) {
     const client = await MongoClient.connect(process.env.MONGODB_URI as string);
     const db = client.db();
+    // get the id from the url
 
-    const commentsCollection = db.collection('comments');
+    const { id } = context.params;
+    const commentsCollection = db.collection(`${id}_comments`);
 
     const comments = await commentsCollection.find().toArray();
 
@@ -98,5 +99,13 @@ export async function getServerSideProps() {
                 author: comment.author,
             }))
         },
+        revalidate: 10,
+    }
+}
+
+export async function getStaticPaths() {
+    return {
+        paths: [],
+        fallback: true,
     }
 }
