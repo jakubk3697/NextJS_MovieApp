@@ -1,6 +1,9 @@
 import { CommentProps } from "@/types";
 import { CommentModal } from "../elements/CommentModal";
-import {useState} from "react";
+import { useState } from "react";
+import { CommentsProps } from "@/types";
+import {useEffect} from "react";
+
 
 /**
  * 
@@ -10,7 +13,7 @@ import {useState} from "react";
  * @todo - add functionality to edit comments
  * @todo - add functionality to delete comments
  */
-export const Comments = () => {
+export const Comments = ({comments}:CommentsProps) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     async function addCommentHandler(enteredCommentData: any) {
@@ -23,8 +26,6 @@ export const Comments = () => {
         });
 
         const data = await response.json();
-
-        console.log(data);
     }
 
     const toggleModalView = () => {
@@ -35,31 +36,27 @@ export const Comments = () => {
         <section className="relative py-10 border-b border-gray-500">
             <h2 className="mb-4 text-2xl font-bold">Comments</h2>
             <div className="flex flex-col items-center justify-between mb-10 md:flex-row">
-                <Comment
-                    author="John Doe"
-                    title="This movie is awesome"
-                    content="This movie was so good. I loved it."
-                />
-                <Comment
-                    author="Jannet Kowalski"
-                    title="Bad choice"
-                    content="I was expecting more from this movie."
-                />
-                <Comment
-                    author="Maria Doe"
-                    title="Could be better"
-                    content="I liked the movie but it could have been better. I would recommend it to my friends."
-                />
+                {comments.map((comment:CommentProps) => {
+                    return (
+                        <Comment
+                            key={comment.id}
+                            id={comment.id}
+                            author={comment.author}
+                            title={comment.title}
+                            content={comment.content}                       
+                        />
+                    )
+                })}
             </div>
             <button
                 type="button"
                 className={`${isModalOpen ? "hidden" : "block"}
                 absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 text-white bg-blue-700 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
-                onClick={toggleModalView}    
+                onClick={toggleModalView}
             >
                 Add a comment
             </button>
-            <CommentModal 
+            <CommentModal
                 isOpen={isModalOpen}
                 onClose={toggleModalView}
                 onAddComment={addCommentHandler}
@@ -68,8 +65,8 @@ export const Comments = () => {
     );
 };
 
-const Comment = ({ author, title, content }: CommentProps) => (
-    <div className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
+const Comment = ({id, author, title, content }: CommentProps) => (
+    <div key={id} id={id} className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
         <div className="p-4 bg-white rounded-lg shadow-md">
             <p className="mb-2 text-red-600 text-lg font-semibold">{title}</p>
             <p className="text-gray-500">

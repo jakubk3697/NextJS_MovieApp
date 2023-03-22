@@ -25,6 +25,11 @@ export const CommentModal = ({isOpen, onClose, onAddComment}: CommentModalProps)
         };
 
         onAddComment(commentData);
+
+        onClose();
+        titleRef.current!.value = '';
+        contentRef.current!.value = '';
+        authorRef.current!.value = '';
     }
 
     return (

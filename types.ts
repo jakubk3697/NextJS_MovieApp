@@ -33,8 +33,12 @@ export interface Movie {
   }
 
  export interface CommentProps {
+    id: string;
     author: string;
     title: string;
     content: string;
 }
 
+export interface CommentsProps {
+    comments: CommentProps[];
+}

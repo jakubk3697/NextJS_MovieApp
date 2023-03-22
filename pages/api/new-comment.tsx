@@ -4,9 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 /**
  * @param req contains the body of the request which is taken from the CommentModal form component
  * @param res contains the response of the request. If the request is successful, the response will be a JSON object with a message property. 
- * @description This function is used to add a new comment to the database. It is called when the user submits the form in the CommentModal component.
- * @todo - add functionality to edit comments
- * @todo - add functionality to delete comments
+ * @description This function is a endpoint for the Next.js API. It is used to add a comment to the database.
+ * @todo change collection name to include movie id in the future e.g. comments_movie-{movieId} 
  * @returns Promise object
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
