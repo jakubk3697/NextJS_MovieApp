@@ -12,11 +12,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'POST') {
         try {
             const data = req.body;
+            const {movieID} = req.query;
 
             const client = await MongoClient.connect(process.env.MONGODB_URI as string);
 
             const db = client.db();
-            const commentsCollection = db.collection('comments');
+            const commentsCollection = db.collection(`${movieID}_comments`);
 
             const result = await commentsCollection.insertOne(data);
 

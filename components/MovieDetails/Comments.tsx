@@ -2,7 +2,7 @@ import { CommentProps } from "@/types";
 import { CommentModal } from "../elements/CommentModal";
 import { useState } from "react";
 import { CommentsProps } from "@/types";
-import {useEffect} from "react";
+import { useRouter } from "next/router";
 
 
 /**
@@ -13,11 +13,12 @@ import {useEffect} from "react";
  * @todo - add functionality to edit comments
  * @todo - add functionality to delete comments
  */
-export const Comments = ({comments}:CommentsProps) => {
+export const Comments = ({comments}: CommentsProps) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const { id } = useRouter().query;
 
     async function addCommentHandler(enteredCommentData: any) {
-        const response = await fetch('/api/new-comment', {
+        const response = await fetch(`/api/post/comment/${id}`, {
             method: 'POST',
             body: JSON.stringify(enteredCommentData),
             headers: {
