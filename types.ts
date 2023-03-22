@@ -42,7 +42,7 @@ export interface CommentsProps {
     comments: CommentProps[];
 }
 
-export interface CommentModalProps {
+export interface CommentFormProps {
   isOpen: boolean;
   onClose: () => void;
   onAddComment: (commentData: { title: string | undefined; content: string | undefined; author: string | undefined; }) => void;

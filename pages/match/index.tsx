@@ -25,8 +25,8 @@ export default function AIMatchPage() {
     /**
      * 
      * @param {string} AIquery - query from url
-     * @returns  {Promise<string>} - stringified array of movie titles
      * @description Initial function for React Query to fetch movie titles from OpenAI API
+     * @returns  {Promise<string>} - stringified array of movie titles
      */
     const initQueryMovieTitlesByAI = async ({ queryKey }: any) => {
         const [_key, { AIquery }] = queryKey;
@@ -35,10 +35,10 @@ export default function AIMatchPage() {
     }
     
     /**
-     * @returns array of movies as Promise
      * @description it uses movie titles from first query to fetch movies from MovieDB API and returns array of movies
      * @description it uses Promise.all to fetch all movies at once
      * @description it uses possibleMoviesObj.results[0] because MovieDB API returns array of possible movies and we want to get the first one
+     * @returns array of movies as Promise
     */
     const initFetchMoviesByTitle = async ({ queryKey }: any) => {
         const [_key, { aiMovieTitles }] = queryKey;

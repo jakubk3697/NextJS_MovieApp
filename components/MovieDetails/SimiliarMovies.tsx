@@ -4,8 +4,8 @@ import MovieCards from "@/components/MovieCards"
 /**
  * 
  * @param {Movies} movies - array of movies to render 
- * @returns {JSX.Element} - returns section with movie cards
  * @description It renders movie cards if there are any movies in array and renders a message if there are no movies in array.
+ * @returns returns section with movie cards
  */
 export const SimiliarMovies = ({movies}: {movies: Movies}) => {
     return (

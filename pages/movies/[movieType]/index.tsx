@@ -23,7 +23,6 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
 
     /**
      * @description It is a function that is passed to the useInfiniteQuery hook to fetch the data client-side page by page beginning from the second page.
-     * @returns 
      */
     const initMoviedbFetch = async ({ pageParam = 1 }) => {
         const response = await reactQueryFetchMovies({ queryKey: ['movies', { page: pageParam, movieType }] });
@@ -52,8 +51,8 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
 
     /**
      * 
-     * @returns The name of the category from the categoryPaths array.
      * @description It is used to set the title of the page.
+     * @returns The name of the category from the categoryPaths array.
      */
     const generateCurrentPageName = () => {
         const categoryPath = categories.find((category) => category.path === movieType);

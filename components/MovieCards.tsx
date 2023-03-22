@@ -2,10 +2,9 @@ import { Movie, Movies } from "../types";
 import { MovieCard } from "./elements/MovieCard";
 
 /**
- * 
  * @param {Movies} movies - array of movies to render 
- * @returns {JSX.Element} - returns section with movie cards 
  * @description It renders "MovieCard"  component for each movie from the movies array
+ * @returns {JSX.Element} - returns section with movie cards 
  */
 export default function MovieCards({movies}: {movies: Movies}) {
     return (

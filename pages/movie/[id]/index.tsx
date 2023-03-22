@@ -81,7 +81,6 @@ export default function MovieDetails({comments}: CommentsProps) {
 export async function getStaticProps(context: any) {
     const client = await MongoClient.connect(process.env.MONGODB_URI as string);
     const db = client.db();
-    // get the id from the url
 
     const { id } = context.params;
     const commentsCollection = db.collection(`${id}_comments`);

@@ -8,8 +8,8 @@ import 'slick-carousel/slick/slick-theme.css';
 /**
  * 
  * @param {object[]} cast - array of objects with cast members
- * @returns {JSX.Element} - returns a section with cast members
  * @description It generates a slick slider with cast members and their profile pictures
+ * @returns {JSX.Element} - returns a section with cast members
  */
 export const Cast = ({ cast }: { cast: object[] }) => {
     const generateActorPoster = (profile_path: string) => {

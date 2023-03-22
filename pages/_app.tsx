@@ -13,7 +13,6 @@ const roboto = Roboto({
 
 /**
  * @description It creates a new query client
- * @desc
  */
 const queryClient = new QueryClient();
 
