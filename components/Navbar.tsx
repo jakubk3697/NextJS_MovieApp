@@ -18,7 +18,7 @@ export const Navbar = () => {
   };
   
   return (
-    <nav className="flex flex-col py-2 px-2 mx-10 justify-between mt-10 mb-8 rounded-xl bg-gray-900">
+    <nav className="flex flex-col py-2 px-2 mx-1 justify-between mt-10 mb-8 rounded-xl bg-gray-900">
       <div className="relative flex items-center justify-between">
         <div className="flex flex-col w-full mb-3 mt-6 text-center md:flex-row md:items-center md:mt-0 md:w-auto">
           {categories.map((category) => (

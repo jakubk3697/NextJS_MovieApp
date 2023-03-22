@@ -32,7 +32,7 @@ export interface Movie {
     movie: Movie;
   }
 
- export interface ReviewProps {
+ export interface CommentProps {
     author: string;
     title: string;
     content: string;

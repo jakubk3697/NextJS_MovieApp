@@ -33,7 +33,7 @@ export const CommentModal = ({isOpen, onClose, onAddComment}: CommentModalProps)
             onSubmit={submitHandler}
         >
             <div className="flex flex-col items-center justify-center w-full h-full p-4 bg-white rounded-lg shadow-md">
-                <h2 className="mb-4 text-2xl font-bold text-black">Add a review</h2>
+                <h2 className="mb-4 text-2xl font-bold text-black">Add a Comment</h2>
 
                 <div className="flex flex-col w-full">
                     <label
