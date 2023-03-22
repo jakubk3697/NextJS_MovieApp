@@ -8,7 +8,7 @@ import { useQuery } from 'react-query';
 import { MainInfo } from './MainInfo';
 import { Cast } from './Cast';
 import { MovieGallery } from './MovieGallery';
-import { Reviews } from './Reviews';
+import { Comments } from './Comments';
 import { SimiliarMovies } from './SimiliarMovies';
 import { CommentModal } from '../elements/CommentModal';
 
@@ -62,7 +62,7 @@ export default function MovieDetails() {
                         <MainInfo movie={movie} />
                         <Cast cast={cast} />
                         <MovieGallery movieId={Number(id)}/>
-                        <Reviews />
+                        <Comments />
                         <SimiliarMovies movies={movieData} />
                     </div>
                 </>
