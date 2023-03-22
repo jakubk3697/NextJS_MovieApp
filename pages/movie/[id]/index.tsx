@@ -78,7 +78,7 @@ export default function MovieDetails({comments}: CommentsProps) {
     )
 }
 
-export async function getStaticProps(context: any) {
+export async function getServerSideProps(context: any) {
     const client = await MongoClient.connect(process.env.MONGODB_URI as string);
     const db = client.db();
 
@@ -98,13 +98,5 @@ export async function getStaticProps(context: any) {
                 author: comment.author,
             }))
         },
-        revalidate: 10,
-    }
-}
-
-export async function getStaticPaths() {
-    return {
-        paths: [],
-        fallback: true,
     }
 }
