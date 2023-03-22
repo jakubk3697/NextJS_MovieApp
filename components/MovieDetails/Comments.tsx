@@ -1,22 +1,25 @@
 import { CommentProps } from "@/types";
-import { CommentModal } from "../elements/CommentModal";
+import { CommentForm } from "../elements/CommentForm";
 import { useState } from "react";
 import { CommentsProps } from "@/types";
 import { useRouter } from "next/router";
 
-
 /**
- * 
- * @returns {JSX.Element} - returns a section with movie comments
- * @description It generates a section with movie comments from users of the app 
- * @todo - add functionality to add comments
- * @todo - add functionality to edit comments
- * @todo - add functionality to delete comments
+ * @description It generates comments fetched from the database and passes them to the Comment component
+ * @description each movie ID has its own collection in the database
+ * @returns returns a section with movie comments taken from database
+ * @todo - add functionality to edit comments for for own comments
+ * @todo - add functionality to delete comments for for own comments
  */
 export const Comments = ({comments}: CommentsProps) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const { id } = useRouter().query;
 
+    /**
+     * @param enteredCommentData Contains the data from the CommentForm form
+     * @description It sends a POST request to the API endpoint with the data from the CommentForm form component
+     * @description It then takes the response and converts it to JSON
+     */
     async function addCommentHandler(enteredCommentData: any) {
         const response = await fetch(`/api/post/comment/${id}`, {
             method: 'POST',
@@ -57,7 +60,7 @@ export const Comments = ({comments}: CommentsProps) => {
             >
                 Add a comment
             </button>
-            <CommentModal
+            <CommentForm
                 isOpen={isModalOpen}
                 onClose={toggleModalView}
                 onAddComment={addCommentHandler}
