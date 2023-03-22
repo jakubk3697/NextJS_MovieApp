@@ -78,6 +78,9 @@ export default function MovieDetails({comments}: CommentsProps) {
     )
 }
 
+/**
+ * @todo Move this component to 'Comments' because currently all MovieDetails is rendered SSR and it's not necessary and very slow
+ */
 export async function getServerSideProps(context: any) {
     const client = await MongoClient.connect(process.env.MONGODB_URI as string);
     const db = client.db();
