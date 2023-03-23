@@ -39,8 +39,6 @@ export const CommentForm = ({isOpen, onClose, onAddComment}: CommentFormProps) =
         titleRef.current!.value = '';
         contentRef.current!.value = '';
         authorRef.current!.value = '';
-
-        Router.push(`/movie/${id}`); // *temporary solution to refresh the page and see added comment
     }
 
     return (

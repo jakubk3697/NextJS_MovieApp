@@ -32,13 +32,14 @@ export interface Movie {
   }
 
  export interface CommentProps {
-    id: string;
+    _id: string;
     author: string;
     title: string;
     content: string;
 }
 
 export interface CommentsProps {
+    map(arg0: (comment: CommentProps) => JSX.Element): import("react").ReactNode;
     comments: CommentProps[];
 }
 

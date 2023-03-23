@@ -1,8 +1,10 @@
 import { CommentProps } from "@/types";
 import { CommentForm } from "../elements/CommentForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CommentsProps } from "@/types";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+import { Loader } from "../elements/Loader";
 
 /**
  * @description It generates comments fetched from the database and passes them to the Comment component
@@ -11,9 +13,22 @@ import { useRouter } from "next/router";
  * @todo - add functionality to edit comments for for own comments
  * @todo - add functionality to delete comments for for own comments
  */
-export const Comments = ({comments}: CommentsProps) => {
+export const Comments = () => {
+    const router = useRouter();
+    const { id } = router.query;
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const { id } = useRouter().query;
+
+    const initFetchComments = async () => {
+        const response = await fetch(`/api/get/comments/${id}`);
+        const data = await response.json();
+        console.log(data);
+        
+        return data;
+    }
+
+    const { data: comments, isFetching: commentsIsFetching } = useQuery<CommentsProps>(['comments', id], () => initFetchComments(), {
+        enabled: !!id && router.isReady,
+    });
 
     /**
      * @param enteredCommentData Contains the data from the CommentForm form
@@ -21,7 +36,7 @@ export const Comments = ({comments}: CommentsProps) => {
      * @description It then takes the response and converts it to JSON
      */
     async function addCommentHandler(enteredCommentData: any) {
-        const response = await fetch(`/api/post/comment/${id}`, {
+        const response = await fetch(`/api/post/comments/${id}`, {
             method: 'POST',
             body: JSON.stringify(enteredCommentData),
             headers: {
@@ -36,6 +51,10 @@ export const Comments = ({comments}: CommentsProps) => {
         setIsModalOpen(!isModalOpen);
     }
 
+    if(!comments || commentsIsFetching) {
+        return <Loader/>
+    }
+
     return (
         <section className="relative py-10 border-b border-gray-500">
             <h2 className="mb-4 text-2xl font-bold">Comments</h2>
@@ -43,11 +62,11 @@ export const Comments = ({comments}: CommentsProps) => {
                 {comments.map((comment:CommentProps) => {
                     return (
                         <Comment
-                            key={comment.id}
-                            id={comment.id}
+                            _id={comment._id} 
+                            key={comment._id}
                             author={comment.author}
                             title={comment.title}
-                            content={comment.content}                       
+                            content={comment.content} 
                         />
                     )
                 })}
@@ -69,8 +88,8 @@ export const Comments = ({comments}: CommentsProps) => {
     );
 };
 
-const Comment = ({id, author, title, content }: CommentProps) => (
-    <div key={id} id={id} className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
+const Comment = ({_id, author, title, content }: CommentProps) => (
+    <div key={_id} id={_id} className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
         <div className="p-4 bg-white rounded-lg shadow-md">
             <p className="mb-2 text-red-600 text-lg font-semibold">{title}</p>
             <p className="text-gray-500">
