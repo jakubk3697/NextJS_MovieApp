@@ -17,17 +17,18 @@ export const Comments = () => {
     const router = useRouter();
     const { id } = router.query;
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [queryTrigger, setQueryTrigger] = useState<boolean>(true);
 
     const initFetchComments = async () => {
         const response = await fetch(`/api/get/comments/${id}`);
         const data = await response.json();
-        console.log(data);
-        
+
         return data;
     }
 
     const { data: comments, isFetching: commentsIsFetching } = useQuery<CommentsProps>(['comments', id], () => initFetchComments(), {
-        enabled: !!id && router.isReady,
+        enabled: !!id && router.isReady && queryTrigger,
+        onSuccess: () => setQueryTrigger(false),
     });
 
     /**
@@ -45,50 +46,51 @@ export const Comments = () => {
         });
 
         const data = await response.json();
+        setQueryTrigger(true);
     }
 
     const toggleModalView = () => {
         setIsModalOpen(!isModalOpen);
     }
 
-    if(!comments || commentsIsFetching) {
-        return <Loader/>
-    }
-
     return (
         <section className="relative py-10 border-b border-gray-500">
             <h2 className="mb-4 text-2xl font-bold">Comments</h2>
-            <div className="flex flex-col items-center justify-between mb-10 md:flex-row">
-                {comments.map((comment:CommentProps) => {
-                    return (
-                        <Comment
-                            _id={comment._id} 
-                            key={comment._id}
-                            author={comment.author}
-                            title={comment.title}
-                            content={comment.content} 
-                        />
-                    )
-                })}
-            </div>
-            <button
-                type="button"
-                className={`${isModalOpen ? "hidden" : "block"}
+            {!comments || commentsIsFetching ? <Loader /> : (
+                <>
+                    <div className="flex flex-col items-center justify-between mb-10 md:flex-row">
+                        {comments.map((comment: CommentProps) => {
+                            return (
+                                <Comment
+                                    _id={comment._id}
+                                    key={comment._id}
+                                    author={comment.author}
+                                    title={comment.title}
+                                    content={comment.content}
+                                />
+                            )
+                        })}
+                    </div>
+                    <button
+                        type="button"
+                        className={`${isModalOpen ? "hidden" : "block"}
                 absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 text-white bg-blue-700 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
-                onClick={toggleModalView}
-            >
-                Add a comment
-            </button>
-            <CommentForm
-                isOpen={isModalOpen}
-                onClose={toggleModalView}
-                onAddComment={addCommentHandler}
-            />
+                        onClick={toggleModalView}
+                    >
+                        Add a comment
+                    </button>
+                    <CommentForm
+                        isOpen={isModalOpen}
+                        onClose={toggleModalView}
+                        onAddComment={addCommentHandler}
+                    />
+                </>
+            )}
         </section>
     );
 };
 
-const Comment = ({_id, author, title, content }: CommentProps) => (
+const Comment = ({ _id, author, title, content }: CommentProps) => (
     <div key={_id} id={_id} className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
         <div className="p-4 bg-white rounded-lg shadow-md">
             <p className="mb-2 text-red-600 text-lg font-semibold">{title}</p>
