@@ -1,6 +1,7 @@
 import MovieCards from "@/components/MovieCards";
 import { Movies, Movie } from "@/types";
-import { fetchMovies } from "@/API/moviedbAPI";
+import axios from "axios";
+// import { fetchMovies } from "@/API/moviedbAPI";
 
 /**
  * 
@@ -22,10 +23,11 @@ export default function Home({movies}:{movies: Movies}) {
  * @returns First page of popular movies
  */
 export async function getStaticProps() {
-    const movies = await fetchMovies('popular', 1);
+  const { data } = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&page=1`);
+  
     return {
         props: {
-            movies,
+            movies: data.results,
         }, 
         revalidate: 60 * 60 * 24, 
     }

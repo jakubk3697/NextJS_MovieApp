@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import Image from 'next/image';
-import { fetchMovieSnapshots } from '@/API/moviedbAPI';
+import { fetchMovieSnapshots } from '@/APIUtils/moviedbAPI';
 import { Loader } from '@/components/elements/Loader';
 import Slider from 'react-slick';
 import { SnapshostsSlick } from '@/utils/slickConfig';

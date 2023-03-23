@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { fetchMovieByTitle } from '@/API/moviedbAPI';
+import { fetchMovieByTitle } from '@/APIUtils/moviedbAPI';
 import { useQuery } from 'react-query';
 import { Loader } from '@/components/elements/Loader';
 import MovieCards from '@/components/MovieCards';
@@ -15,19 +15,18 @@ export default function SearchPage() {
     const router = useRouter();
     const { query }:any = router.query;
 
-    const { data, isFetching, isError, isSuccess } = useQuery(
+    const { data: movies, isFetching, isError, isSuccess } = useQuery(
         ['movies', { query }],
         () => fetchMovieByTitle(query),
         {
             enabled: !!query,
+            staleTime: 1000 * 60 * 60 * 24, // 24 hours
         }
     )    
     
     if (isFetching) return <Loader/>
     if (isError) return router.push('/404');
     
-    const movies = data?.results;
-
     return (
         <>
             <Meta 

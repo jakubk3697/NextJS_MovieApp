@@ -1,5 +1,5 @@
 import { Movie } from '@/types';
-import { fetchMovieByID, fetchMovieCastByID, fetchSimiliarMovies } from '@/API/moviedbAPI';
+import { fetchMovieByID, fetchMovieCastByID, fetchSimiliarMovies } from '@/APIUtils/moviedbAPI';
 import { CommentsProps } from '@/types';
 
 import { useRouter } from 'next/router';
@@ -28,7 +28,6 @@ export default function MovieDetails() {
     const router = useRouter();
     const { id } = router.query;
     const [isRouterReady, setIsRouterReady] = useState(false);
-    const [queryTrigger, setQueryTrigger] = useState(true);
 
     const { data: movie } = useQuery<Movie>(['movie', id], () => fetchMovieByID(Number(id)), {
         enabled: isRouterReady && !!id,
@@ -79,31 +78,3 @@ export default function MovieDetails() {
         </>
     )
 }
-
-
-
-/**
- * @todo Move this component to 'Comments' because currently all MovieDetails is rendered SSR and it's not necessary and very slow
- */
-// export async function getServerSideProps(context: any) {
-//     const client = await MongoClient.connect(process.env.MONGODB_URI as string);
-//     const db = client.db();
-
-//     const { id } = context.params;
-//     const commentsCollection = db.collection(`${id}_comments`);
-
-//     const comments = await commentsCollection.find().toArray();
-
-//     client.close();
-
-//     return {
-//         props: {
-//             comments: comments.map(comment => ({
-//                 id: comment._id.toString(),
-//                 title: comment.title,
-//                 content: comment.content,
-//                 author: comment.author,
-//             }))
-//         },
-//     }
-// }

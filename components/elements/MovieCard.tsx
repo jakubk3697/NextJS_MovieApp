@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Genre, MovieCardProps } from '@/types';
 import noCardPoster from '@/public/images/no-poster.png';
-import { fetchGenres } from '@/API/moviedbAPI';
+import { fetchGenres } from '@/APIUtils/moviedbAPI';
 import { useContext } from 'react';
 import { ThemeContext } from '@/contexts/theme';
 

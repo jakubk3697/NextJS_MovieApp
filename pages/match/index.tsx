@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { useState, useEffect } from 'react';
-// import { queryMovieTitlesByAI } from '@/API/openaiAPI';
-import {fetchMovieByTitle} from '@/API/moviedbAPI';  
+import {fetchMovieByTitle} from '@/APIUtils/moviedbAPI';  
 import { Loader } from '@/components/elements/Loader';
 import MovieCards from '@/components/MovieCards';
 import { Meta } from '@/components/Meta';
