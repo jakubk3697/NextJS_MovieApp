@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import { useRouter } from 'next/router';
 import { CommentFormProps } from '@/types';
-
+import { commentsFormValidation } from '@/utils/validation';
+import { useState } from 'react';
 
 /**
  * @param isOpen is boolean value that determines if the modal is open or not
@@ -10,24 +10,47 @@ import { CommentFormProps } from '@/types';
  * @description Contains a form with data which is passed to the onAddComment function to add comment to the database
  * @todo add form validation to prevent sending unnecessary data to the database
  */
-export const CommentForm = ({isOpen, onClose, onAddComment}: CommentFormProps) => {
-    const Router = useRouter();
-    const { id } = Router.query;
-
+export const CommentForm = ({ isOpen, onClose, onAddComment }: CommentFormProps) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
+    const [formInputsValidation, setFormInputsValidation] = useState<{
+        title: boolean;
+        content: boolean;
+        author: boolean;
+    }>({ title: false, content: false, author: false });
+
+    const title = titleRef.current?.value;
+    const content = contentRef.current?.value;
+    const author = authorRef.current?.value;
+
+
+    const validateForm = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const titleIsValid = commentsFormValidation.title.test(title!);
+        const contentIsValid = commentsFormValidation.content.test(content!);
+        const authorIsValid = commentsFormValidation.author.test(author!);
+
+        setFormInputsValidation({
+            title: titleIsValid,
+            content: contentIsValid,
+            author: authorIsValid,
+        });
+
+        if(titleIsValid && contentIsValid && authorIsValid) {
+            submitHandler();
+        }
+    };
+
+    const validateInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        
+    }
 
     /**
      * @param e is a React.FormEvent<HTMLFormElement> object
      * @description This function is a handler for the form submit event. It takes the data from the form and passes it to the onAddComment function
      */
-    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const title = titleRef.current?.value;
-        const content = contentRef.current?.value;
-        const author = authorRef.current?.value;
-
+    const submitHandler = async () => {
         const commentData = {
             title,
             content,
@@ -44,12 +67,12 @@ export const CommentForm = ({isOpen, onClose, onAddComment}: CommentFormProps) =
     return (
         <form
             className={` ${isOpen ? "block" : "hidden"} mx-auto py-5 mt-5 md:w-2/3`}
-            onSubmit={submitHandler}
+            onSubmit={validateForm}
         >
             <div className="flex flex-col items-center justify-center w-full h-full p-4 bg-white rounded-lg shadow-md">
                 <h2 className="mb-4 text-2xl font-bold text-black">Add a Comment</h2>
 
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full mb-3">
                     <label
                         htmlFor="title"
                         className="mb-2 text-sm font-bold text-gray-700"
@@ -59,12 +82,15 @@ export const CommentForm = ({isOpen, onClose, onAddComment}: CommentFormProps) =
                     <input
                         type="text"
                         id="title"
-                        className="px-4 py-2 mb-4 text-gray-700 bg-gray-200 border-none rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white"
+                        className="px-4 py-2 mb-1 text-gray-700 bg-gray-200 border-none rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white"
                         ref={titleRef}
                     />
+                      {formInputsValidation.title === false && (
+                            <span className="text-red-500">Title should contain 3-30 characters</span>
+                        )}
                 </div>
 
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full mb-3">
                     <label
                         htmlFor="content"
                         className="mb-2 text-sm font-bold text-gray-700"
@@ -74,12 +100,15 @@ export const CommentForm = ({isOpen, onClose, onAddComment}: CommentFormProps) =
                     <textarea
                         name="content"
                         id="content"
-                        className="px-4 py-2 mb-4 text-gray-700 bg-gray-200 border-none rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white"
+                        className="px-4 py-2 mb-1 text-gray-700 bg-gray-200 border-none rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white"
                         ref={contentRef}
                     />
+                    {formInputsValidation.content === false && (
+                        <span className='text-red-500'>Title should contain 20-200 characters.</span>
+                    )}
                 </div>
 
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full mb-3">
                     <label
                         htmlFor="title"
                         className="mb-2 text-sm font-bold text-gray-700"
@@ -89,9 +118,12 @@ export const CommentForm = ({isOpen, onClose, onAddComment}: CommentFormProps) =
                     <input
                         type="text"
                         id="author"
-                        className="px-4 py-2 mb-4 text-gray-700 bg-gray-200 border-none rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white"
+                        className="px-4 py-2 mb-1 text-gray-700 bg-gray-200 border-none rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white"
                         ref={authorRef}
                     />
+                    {formInputsValidation.author === false && (
+                        <span className='text-red-500'>Title should contain 3-25 characters.</span>
+                    )}
                 </div>
 
                 <div className="flex items-center justify-between w-full">

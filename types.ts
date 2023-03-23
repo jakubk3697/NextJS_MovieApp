@@ -48,3 +48,9 @@ export interface CommentFormProps {
   onClose: () => void;
   onAddComment: (commentData: { title: string | undefined; content: string | undefined; author: string | undefined; }) => void;
 }
+
+export interface CommentsForm {
+  title: RegExp;
+  content: RegExp;
+  author: RegExp;
+}

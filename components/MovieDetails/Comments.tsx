@@ -10,8 +10,8 @@ import { Loader } from "../elements/Loader";
  * @description It generates comments fetched from the database and passes them to the Comment component
  * @description each movie ID has its own collection in the database
  * @returns returns a section with movie comments taken from database
- * @todo - add functionality to edit comments for for own comments
- * @todo - add functionality to delete comments for for own comments
+ * @todo - add functionality to edit comments for own comments
+ * @todo - add functionality to delete comments for own comments
  */
 export const Comments = () => {
     const router = useRouter();
@@ -26,6 +26,10 @@ export const Comments = () => {
         return data;
     }
 
+    /**
+     * @description It fetches the comments from the database on page load and when user adds a comment
+     * @description querTrigger is set to true when user adds a comment and it is set to false when the query is successful. 
+     */
     const { data: comments, isFetching: commentsIsFetching } = useQuery<CommentsProps>(['comments', id], () => initFetchComments(), {
         enabled: !!id && router.isReady && queryTrigger,
         onSuccess: () => setQueryTrigger(false),
@@ -35,6 +39,7 @@ export const Comments = () => {
      * @param enteredCommentData Contains the data from the CommentForm form
      * @description It sends a POST request to the API endpoint with the data from the CommentForm form component
      * @description It then takes the response and converts it to JSON
+     * @description when comment is added successfully, queryTrigger is set to true to trigger the query again to fetch actual comments.
      */
     async function addCommentHandler(enteredCommentData: any) {
         const response = await fetch(`/api/post/comments/${id}`, {
