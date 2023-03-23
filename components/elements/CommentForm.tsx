@@ -14,19 +14,19 @@ export const CommentForm = ({ isOpen, onClose, onAddComment }: CommentFormProps)
     const titleRef = useRef<HTMLInputElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
+
     const [formInputsValidation, setFormInputsValidation] = useState<{
         title: boolean;
         content: boolean;
         author: boolean;
-    }>({ title: false, content: false, author: false });
-
-    const title = titleRef.current?.value;
-    const content = contentRef.current?.value;
-    const author = authorRef.current?.value;
-
+    }>({ title: true, content: true, author: true });
 
     const validateForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const title = titleRef.current?.value;
+        const content = contentRef.current?.value;
+        const author = authorRef.current?.value;
+
         const titleIsValid = commentsFormValidation.title.test(title!);
         const contentIsValid = commentsFormValidation.content.test(content!);
         const authorIsValid = commentsFormValidation.author.test(author!);
@@ -42,15 +42,15 @@ export const CommentForm = ({ isOpen, onClose, onAddComment }: CommentFormProps)
         }
     };
 
-    const validateInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        
-    }
-
     /**
      * @param e is a React.FormEvent<HTMLFormElement> object
      * @description This function is a handler for the form submit event. It takes the data from the form and passes it to the onAddComment function
      */
     const submitHandler = async () => {
+        const title = titleRef.current?.value;
+        const content = contentRef.current?.value;
+        const author = authorRef.current?.value;
+    
         const commentData = {
             title,
             content,
