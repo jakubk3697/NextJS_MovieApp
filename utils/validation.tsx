@@ -5,4 +5,3 @@ export const commentsFormValidation: CommentsForm = {
     content: /^.{20,200}$/,
     author: /^[a-zA-Z\s-]{3,25}$/
   };
-  
