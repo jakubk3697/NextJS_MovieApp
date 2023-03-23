@@ -32,13 +32,14 @@ export interface Movie {
   }
 
  export interface CommentProps {
-    id: string;
+    _id: string;
     author: string;
     title: string;
     content: string;
 }
 
 export interface CommentsProps {
+    map(arg0: (comment: CommentProps) => JSX.Element): import("react").ReactNode;
     comments: CommentProps[];
 }
 
@@ -46,4 +47,10 @@ export interface CommentFormProps {
   isOpen: boolean;
   onClose: () => void;
   onAddComment: (commentData: { title: string | undefined; content: string | undefined; author: string | undefined; }) => void;
+}
+
+export interface CommentsForm {
+  title: RegExp;
+  content: RegExp;
+  author: RegExp;
 }
