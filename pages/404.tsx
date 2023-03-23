@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import Image from "next/image";
 import { imageLoader } from "@/utils/imageLoader";
 import { Meta } from "@/components/Meta";
-
+ 
 
 /**
  * @description It displays a 404 page with a gif and a button to go back to the home page
