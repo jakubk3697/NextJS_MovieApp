@@ -5,6 +5,7 @@ import { CommentsProps } from '@/types';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import axios from 'axios';
 import { MongoClient } from 'mongodb';
 
 import { Meta } from "@/components/Meta";
@@ -23,10 +24,11 @@ import { SimiliarMovies } from "@/components/MovieDetails/SimiliarMovies";
  * @returns MovieDetails page with the details of the movie and the cast of the movie
  * 
  */
-export default function MovieDetails({comments}: CommentsProps) {
+export default function MovieDetails() {
     const router = useRouter();
     const { id } = router.query;
     const [isRouterReady, setIsRouterReady] = useState(false);
+    const [queryTrigger, setQueryTrigger] = useState(true);
 
     const { data: movie } = useQuery<Movie>(['movie', id], () => fetchMovieByID(Number(id)), {
         enabled: isRouterReady && !!id,
@@ -69,7 +71,7 @@ export default function MovieDetails({comments}: CommentsProps) {
                         <MainInfo movie={movie} />
                         <Cast cast={cast} />
                         <MovieGallery movieId={Number(id)}/>
-                        <Comments comments={comments}/>
+                        <Comments  />
                         <SimiliarMovies movies={movieData} />
                     </div>
                 </>
@@ -78,25 +80,30 @@ export default function MovieDetails({comments}: CommentsProps) {
     )
 }
 
-export async function getServerSideProps(context: any) {
-    const client = await MongoClient.connect(process.env.MONGODB_URI as string);
-    const db = client.db();
 
-    const { id } = context.params;
-    const commentsCollection = db.collection(`${id}_comments`);
 
-    const comments = await commentsCollection.find().toArray();
+/**
+ * @todo Move this component to 'Comments' because currently all MovieDetails is rendered SSR and it's not necessary and very slow
+ */
+// export async function getServerSideProps(context: any) {
+//     const client = await MongoClient.connect(process.env.MONGODB_URI as string);
+//     const db = client.db();
 
-    client.close();
+//     const { id } = context.params;
+//     const commentsCollection = db.collection(`${id}_comments`);
 
-    return {
-        props: {
-            comments: comments.map(comment => ({
-                id: comment._id.toString(),
-                title: comment.title,
-                content: comment.content,
-                author: comment.author,
-            }))
-        },
-    }
-}
+//     const comments = await commentsCollection.find().toArray();
+
+//     client.close();
+
+//     return {
+//         props: {
+//             comments: comments.map(comment => ({
+//                 id: comment._id.toString(),
+//                 title: comment.title,
+//                 content: comment.content,
+//                 author: comment.author,
+//             }))
+//         },
+//     }
+// }

@@ -30,7 +30,7 @@ export const Cast = ({ cast }: { cast: object[] }) => {
           {cast.map((actor: any) => {
             return (
               <div key={actor.id}>
-                <div className="mx-2 text-center">
+                <div className="mx-2 text-center hover:scale-105 transition-transform">
                   <Image
                     src={generateActorPoster(actor.profile_path)}
                     alt={actor.name} 
