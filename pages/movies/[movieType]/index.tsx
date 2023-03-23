@@ -1,11 +1,12 @@
 import { Movies } from '@/types';
-import { reactQueryFetchMovies, fetchMovies } from '@/API/moviedbAPI';
+import { } from '@/APIUtils/moviedbAPI';
 import { useInfiniteQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import MovieCards from '@/components/MovieCards';
 import { Loader } from '@/components/elements/Loader';
 import { Meta } from '@/components/Meta';
 import { categories } from '@/utils/categories';
+import axios from 'axios';
 
 interface propsContext {
     params: { movieType: string };
@@ -25,8 +26,10 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
      * @description It is a function that is passed to the useInfiniteQuery hook to fetch the data client-side page by page beginning from the second page.
      */
     const initMoviedbFetch = async ({ pageParam = 1 }) => {
-        const response = await reactQueryFetchMovies({ queryKey: ['movies', { page: pageParam, movieType }] });
-        return response;
+        const res = await fetch(`/api/get/movies/${movieType}?page=${pageParam}`);
+        const data = await res.json();
+
+        return data;
     }
 
     /**
@@ -102,7 +105,8 @@ export default function MoviesPage({ movies }: { movies: Movies }) {
  */
 export async function getStaticProps(context: propsContext) {
     const { movieType } = context.params;
-    const movies = await fetchMovies(movieType, 1);
+    const res = await axios(`https://api.themoviedb.org/3/movie/${movieType}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&page=1`);
+    const movies = await res.data;
 
     return {
         props: {

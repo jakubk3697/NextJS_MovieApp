@@ -1,4 +1,4 @@
-import { Movie, Movies } from "../types";
+import { Movie, Movies } from '@/types';
 import { MovieCard } from "./elements/MovieCard";
 
 /**

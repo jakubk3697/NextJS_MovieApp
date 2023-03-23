@@ -14,7 +14,7 @@ export const HeaderSearchbar = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(inpRef.current && inpRef.current.value.length > 8 && inpRef.current.value !== query) {
+        if(inpRef.current && inpRef.current.value.length > 4 && inpRef.current.value !== query) {
             setIsFormCorrect(true);
             router.push(`/search?query=${encodeURIComponent(inpRef.current.value)}`);
         } else{
@@ -42,7 +42,7 @@ export const HeaderSearchbar = () => {
                     Search
                 </button>
             </form>
-            {!isFormCorrect && <span className="absolute text-red-500">Input should contains more than 8 characters</span>}
+            {!isFormCorrect && <span className="absolute text-red-500">Input should contains more than 4 characters</span>}
         </div>
     );
 }
