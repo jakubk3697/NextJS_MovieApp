@@ -6,7 +6,7 @@ export const AISearchbar = () => {
     const { AIquery }: any = router.query;
     const AIInputRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(AIInputRef.current && AIInputRef.current.value !== AIquery) {
             router.push(`/match?AIquery=${encodeURIComponent(AIInputRef.current.value)}`);

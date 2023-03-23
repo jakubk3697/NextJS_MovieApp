@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { useState, useEffect } from 'react';
-import { queryMovieTitlesByAI } from '@/API/openaiAPI';
+// import { queryMovieTitlesByAI } from '@/API/openaiAPI';
 import {fetchMovieByTitle} from '@/API/moviedbAPI';  
 import { Loader } from '@/components/elements/Loader';
 import MovieCards from '@/components/MovieCards';
 import { Meta } from '@/components/Meta';
-
-
 
 /**
  * @description It uses router to get query from url and then uses it to fetch movie titles from OpenAI API using React Query.
@@ -20,7 +18,28 @@ export default function AIMatchPage() {
     const { AIquery }: any = router.query;
     
     const [isRouterReady, setIsRouterReady] = useState(false);
-    
+
+    const queryMovieTitlesByAI = async ({AIquery}: {AIquery: string}) => {
+        const data = {
+            'prompt': `
+            Read and parse the value from the following INPUT, which contains information sent by the user about their movie taste, then return the six movie titles that best match that input. If you don't understand the INPUT return the random most liked movies of this year. 
+            Return only the titles in the JavaScript array, nothing else is included.
+            INPUT={${AIquery}}
+            `,
+        };
+
+        const response = await fetch('/api/post/openai/generate-titles', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data), 
+        });
+
+        const movieTitles = await response.json();
+        return movieTitles.text;
+        
+    }
     
     /**
      * 
@@ -66,7 +85,7 @@ export default function AIMatchPage() {
         queryKey: ['aiMovieTitles', { AIquery }],
         queryFn: initQueryMovieTitlesByAI,
         enabled: !!AIquery && AIquery.length > 6,
-        staleTime: 60 * 60 * 1000, // 1 hour
+        staleTime: 24 * 60 * 60 * 1000, // 24h cached same data
     });
     
 
@@ -85,7 +104,7 @@ export default function AIMatchPage() {
         queryKey: ['aiMovies', { aiMovieTitles }],
         queryFn: initFetchMoviesByTitle,
         enabled: !!aiMovieTitles,
-        staleTime: 60 * 60 * 1000, // 1 hour
+        staleTime: 24 * 60 * 60 * 1000, // 24h cached same data
     });
     
     
