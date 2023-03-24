@@ -64,8 +64,9 @@ export default function AIMatchPage() {
         const [_key, { aiMovieTitles }] = queryKey;
 
         const movies = await Promise.all(aiMovieTitles.map(async (title: string) => {
-            const possibleMoviesObj = await fetchMovieByTitle(title);
-            const movie = possibleMoviesObj[0];
+            const moviesObj = await fetchMovieByTitle(title);
+            console.log(moviesObj);
+            const movie = moviesObj[0];
             return movie;
         }));
 
@@ -86,7 +87,7 @@ export default function AIMatchPage() {
         queryKey: ['aiMovieTitles', { AIquery }],
         queryFn: initQueryMovieTitlesByAI,
         enabled: !!AIquery && AIquery.length > 6,
-        staleTime: 24 * 60 * 60 * 1000, // 24h cached same data
+        staleTime: 24 * 60 * 60 * 1000, // 24h cached data
     });
     
 
@@ -105,7 +106,7 @@ export default function AIMatchPage() {
         queryKey: ['aiMovies', { aiMovieTitles }],
         queryFn: initFetchMoviesByTitle,
         enabled: !!aiMovieTitles,
-        staleTime: 24 * 60 * 60 * 1000, // 24h cached same data
+        staleTime: 24 * 60 * 60 * 1000, // 24h cached data
     });
     
     

@@ -82,4 +82,3 @@ export const fetchSimiliarMovies = async (id:number) => {
 
     return res.data.results;
 }
-
