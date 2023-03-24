@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             res.status(201).json({ message: `Comment with ID ${result.insertedId} added successfully!` });
         } catch (err) {
-            res.status(500).json({ message: `Could not add comment - Error ${err}` });
+            res.status(500).json({ message: `Could not add comment - Error ${err}`});
         }
     }
 }
