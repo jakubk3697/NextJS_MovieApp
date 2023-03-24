@@ -27,7 +27,7 @@ export default function AIMatchPage() {
             `,
         };
 
-        const response = await fetch('https://next-js-movie-app-chi.vercel.app/api/post/openai/generate-titles', {
+        const response = await fetch('/api/post/openai/generate-titles', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
