@@ -15,6 +15,5 @@ export const AITextToArray = (text:string) => {
     return array;
   } else {
     console.log("No array found.");
-    return [];
   }
 }
