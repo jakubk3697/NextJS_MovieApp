@@ -36,8 +36,10 @@ export default function AIMatchPage() {
         });
 
         const movieTitles = await response.json();
-        return movieTitles.text;
+        const movieTitlesJSON = JSON.parse(movieTitles.text);
+        const movieTitlesArray = movieTitlesJSON.map((movie: any) => movie);
         
+        return movieTitlesArray;
     }
     
     /**
@@ -60,10 +62,13 @@ export default function AIMatchPage() {
     */
     const initFetchMoviesByTitle = async ({ queryKey }: any) => {
         const [_key, { aiMovieTitles }] = queryKey;
-
-        const movies = await Promise.all(JSON.parse(aiMovieTitles).map(async (title: string) => {
+       console.log(aiMovieTitles);
+       
+        
+        const movies = await Promise.all(aiMovieTitles.map(async (title: string) => {
             const possibleMoviesObj = await fetchMovieByTitle(title);
-            const movie = possibleMoviesObj.results[0];
+            const movie = possibleMoviesObj[0];
+            
             return movie;
         }));
 
