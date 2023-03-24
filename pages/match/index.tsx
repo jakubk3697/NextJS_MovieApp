@@ -63,7 +63,7 @@ export default function AIMatchPage() {
 
         const movies = await Promise.all(JSON.parse(aiMovieTitles).map(async (title: string) => {
             const possibleMoviesObj = await fetchMovieByTitle(title);
-            const movie = possibleMoviesObj.results[0];
+            const movie = possibleMoviesObj[0];
             return movie;
         }));
 
