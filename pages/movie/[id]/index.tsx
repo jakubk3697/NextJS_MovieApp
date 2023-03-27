@@ -5,9 +5,6 @@ import { CommentsProps } from '@/types';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import axios from 'axios';
-import { MongoClient } from 'mongodb';
-
 import { Meta } from "@/components/Meta";
 import { Loader } from '@/components/elements/Loader';
 import { MainInfo } from "@/components/MovieDetails/MainInfo";

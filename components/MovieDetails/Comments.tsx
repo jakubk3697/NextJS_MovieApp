@@ -5,6 +5,8 @@ import { CommentsProps } from "@/types";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { Loader } from "../elements/Loader";
+import firebase from "@/firebase/clientApp";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 /**
  * @description It generates comments fetched from the database and passes them to the Comment component
@@ -19,61 +21,64 @@ export const Comments = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [queryTrigger, setQueryTrigger] = useState<boolean>(true);
 
-    const initFetchComments = async () => {
-        const response = await fetch(`/api/get/comments/${id}`);
-        const data = await response.json();
+    // const initFetchComments = async () => {
+    //     const response = await fetch(`/api/get/comments/${id}`);
+    //     const data = await response.json();
 
-        return data;
-    }
+    //     return data;
+    // }
 
-    /**
-     * @description It fetches the comments from the database on page load and when user adds a comment
-     * @description querTrigger is set to true when user adds a comment and it is set to false when the query is successful. 
-     */
-    const { data: comments, isFetching: commentsIsFetching } = useQuery<CommentsProps>(['comments', id], () => initFetchComments(), {
-        enabled: !!id && router.isReady && queryTrigger,
-        onSuccess: () => setQueryTrigger(false),
-    });
+    // /**
+    //  * @description It fetches the comments from the database on page load and when user adds a comment
+    //  * @description querTrigger is set to true when user adds a comment and it is set to false when the query is successful. 
+    //  */
+    // const { data: comments, isFetching: commentsIsFetching } = useQuery<CommentsProps>(['comments', id], () => initFetchComments(), {
+    //     enabled: !!id && router.isReady && queryTrigger,
+    //     onSuccess: () => setQueryTrigger(false),
+    // });
 
-    /**
-     * @param enteredCommentData Contains the data from the CommentForm form
-     * @description It sends a POST request to the API endpoint with the data from the CommentForm form component
-     * @description It then takes the response and converts it to JSON
-     * @description when comment is added successfully, queryTrigger is set to true to trigger the query again to fetch actual comments.
-     */
+    const [commentsData, commentsLoading, commentsError] = useDocumentData(
+        firebase.firestore().collection("comments").doc(`movie_${id}`) as any,
+    );
+
+    const comments = commentsData?.comments || [];
+
     async function addCommentHandler(enteredCommentData: any) {
-        const response = await fetch(`/api/post/comments/${id}`, {
-            method: 'POST',
-            body: JSON.stringify(enteredCommentData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const data = await response.json();
-        setQueryTrigger(true);
+        await firebase
+            .firestore()
+            .collection("comments")
+            .doc(`movie_${id}`)
+            .update({
+                comments: firebase.firestore.FieldValue.arrayUnion({
+                    id: Date.now(),
+                    ...enteredCommentData,
+                }),
+            });
+        // setQueryTrigger(true);
     }
 
     const toggleModalView = () => {
         setIsModalOpen(!isModalOpen);
-    }
+    };
 
     return (
         <section className="relative py-10 border-b border-gray-500">
             <h2 className="mb-4 text-2xl font-bold">Comments</h2>
-            {!comments || commentsIsFetching ? <Loader /> : (
+            {!commentsData || commentsLoading ? (
+                <Loader />
+            ) : (
                 <>
                     <div className="flex flex-col items-center justify-between mb-10 md:flex-row">
-                        {comments.map((comment: CommentProps) => {
-                            return (
-                                <Comment
-                                    _id={comment._id}
-                                    key={comment._id}
-                                    author={comment.author}
-                                    title={comment.title}
-                                    content={comment.content}
-                                />
-                            )
+                    {comments.map((comment: CommentProps) => {
+                        return (
+                            <Comment
+                            key={comment.id}
+                            id={comment.id}
+                            author={comment.author}
+                            title={comment.title}
+                            content={comment.content}
+                            />
+                        );
                         })}
                     </div>
                     <button
@@ -95,14 +100,12 @@ export const Comments = () => {
     );
 };
 
-const Comment = ({ _id, author, title, content }: CommentProps) => (
-    <div key={_id} id={_id} className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
-        <div className="p-4 bg-white rounded-lg shadow-md">
-            <p className="mb-2 text-red-600 text-lg font-semibold">{title}</p>
-            <p className="text-gray-500">
-                {content}
-            </p>
-            <p className="mt-4 border-t-2 text-gray-400 italic">{author}</p>
-        </div>
+const Comment = ({ id, author, title, content }: CommentProps) => (
+    <div key={id} id={id} className="w-full mb-4 mx-1 md:w-1/2 md:mb-0">
+      <div className="p-4 bg-white rounded-lg shadow-md">
+        <p className="mb-2 text-red-600 text-lg font-semibold">{title}</p>
+        <p className="text-gray-500">{content}</p>
+        <p className="mt-4 border-t-2 text-gray-400 italic">{author}</p>
+      </div>
     </div>
-);
+  );

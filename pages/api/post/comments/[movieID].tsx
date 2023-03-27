@@ -1,30 +1,33 @@
-import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import firebase from "@/firebase/clientApp";
 
-/**
- * @param req contains the body of the request which is taken from the CommentForm form component   
- * @param res contains the response of the request. If the request is successful, the response will be a JSON object with a message property. 
- * @description This function is a endpoint for the Next.js API. It is used to add a comment to the database.
- * @returns Promise object
- */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === 'POST') {
-        try {
-            const data = req.body;
-            const {movieID} = req.query;
+  if (req.method === "POST") {
+    try {
+      const { movieID } = req.query;
+      const { author, title, content } = req.body;
 
-            const client = await MongoClient.connect(process.env.MONGODB_URI as string);
+      // Add the new comment to the database
+      const commentRef = firebase
+        .firestore()
+        .collection("comments")
+        .doc(`movie_${movieID}`);
 
-            const db = client.db();
-            const commentsCollection = db.collection(`${movieID}_comments`);
+      await commentRef.update({
+        comments: firebase.firestore.FieldValue.arrayUnion({
+          id: Date.now(),
+          author: author,
+          title: title,
+          content: content,
+        }),
+      });
 
-            const result = await commentsCollection.insertOne(data);
-
-            client.close();
-
-            res.status(201).json({ message: `Comment with ID ${result.insertedId} added successfully!` });
-        } catch (err) {
-            res.status(500).json({ message: `Could not add comment - Error ${err}`});
-        }
+      res.status(201).json({ message: "Comment added successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
     }
+  } else {
+    res.status(405).json({ message: "Method not allowed" });
+  }
 }
