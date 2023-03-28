@@ -1,3 +1,6 @@
+/**
+ * @returns returns a loader component used when data is being fetched 
+ */
 export function Loader() {
     return (
       <div className="flex justify-center items-center">

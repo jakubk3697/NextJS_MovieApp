@@ -3,7 +3,6 @@ import { Movies, Movie } from "@/types";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "@/firebase/clientApp";
-import { useCollection } from "react-firebase-hooks/firestore";
 
 /**
  * 
@@ -13,8 +12,6 @@ import { useCollection } from "react-firebase-hooks/firestore";
  */
 export default function Home({movies}: {movies: Movies}) {
   const [user, loading, error] = useAuthState(firebase.auth() as any);
-
-  // console.log("Loading:", loading, "|", "Current user: ", user);
 
   return (
     <>

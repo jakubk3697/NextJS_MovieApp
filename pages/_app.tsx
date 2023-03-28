@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import { Roboto } from 'next/font/google';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { SessionProvider } from 'next-auth/react';
 
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -24,8 +25,9 @@ const queryClient = new QueryClient();
  * @description It also adds the roboto font and react-query provider with devtools to the app
  * @returns The app wrapped with the Layout component and the react-query provider
  */
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }:AppProps) {
   return (
+    <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
         <div className={roboto.className}>
           <Layout >
@@ -34,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
         </div>
         <ReactQueryDevtools />
       </QueryClientProvider>
+    </SessionProvider>
   )
 }
 

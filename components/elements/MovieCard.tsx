@@ -19,7 +19,7 @@ import { ThemeContext } from '@/contexts/theme';
 export const MovieCard = ({ movie }: MovieCardProps) => {
     const [genres, setGenres] = useState<Genre[]>([]);
     const theme = useContext(ThemeContext);
-
+    
 
     useEffect(() => {
       fetchGenres().then((genres) => setGenres(genres));
