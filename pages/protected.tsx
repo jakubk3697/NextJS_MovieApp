@@ -4,10 +4,10 @@ import Router from 'next/router';
 import { useEffect } from 'react';
 import { Loader } from '@/components/elements/Loader';
 
-
 export default function Protected() {
     const { data: session, status } = useSession();
-
+    console.log(session);
+    
     useEffect(() => {
         if (status === 'unauthenticated') Router.replace('/auth/signIn'); 
     }, [status])
