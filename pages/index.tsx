@@ -12,6 +12,7 @@ import firebase from "@/firebase/clientApp";
  */
 export default function Home({movies}: {movies: Movies}) {
   const [user, loading, error] = useAuthState(firebase.auth() as any);
+  console.log("Loading: ", loading, "|", "Current User: ", user, "|");
 
   return (
     <>

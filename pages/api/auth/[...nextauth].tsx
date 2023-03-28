@@ -1,5 +1,12 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 export const authOptions = {
   session: {
@@ -7,18 +14,29 @@ export const authOptions = {
   },
   providers: [
     CredentialsProvider({
-      name: 'redentials',
+      name: 'FirebaseCredentials',
       credentials: {
-        email: {label: 'Email', type: 'text', placeholder: 'admin@wit.pl'},
-        password: {label: 'Password', type: 'password', placeholder: '1234'},
+        username: { label: 'Username', type: 'text', placeholder: 'admin' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        const {email, password} = credentials as {email: string, password: string};
-        if(email !== 'admin@wit.pl' || password !== '1234') {
-          throw new Error('Invalid email or password');
-        }
-        return {id: 1, name: 'admin'};
+        const { username, password } = credentials as { username: string, password: string };
+        const db = getFirestore();
+        const q = query(collection(db, "users"), where("username", "==", username));
+        const querySnapshot = await getDocs(q);
+        console.log(querySnapshot);
+        const userDoc = querySnapshot.docs[0];
 
+        if (userDoc) {
+          const user = userDoc.data();
+          if (user.password === password) {
+            return user;
+          } else {
+            throw new Error("Invalid password");
+          }
+        } else {
+          throw new Error("User not found");
+        }
       }
     })
   ],

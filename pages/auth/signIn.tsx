@@ -3,14 +3,14 @@ import { signIn } from "next-auth/react";
 import { FormEventHandler, useState } from "react";
 
 const SignIn: NextPage = (props): JSX.Element => {
-  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+  const [userInfo, setUserInfo] = useState({ username: "", password: "" });
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     // validate your userinfo
     e.preventDefault();
 
     const res = await signIn("credentials", {
-      email: userInfo.email,
+      username: userInfo.username,
       password: userInfo.password,
       redirect: false,
     });
@@ -26,12 +26,12 @@ const SignIn: NextPage = (props): JSX.Element => {
         </h1>
         <input
           className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          value={userInfo.email}
+          value={userInfo.username}
           onChange={({ target }) =>
-            setUserInfo({ ...userInfo, email: target.value })
+            setUserInfo({ ...userInfo, username: target.value })
           }
-          type="email"
-          placeholder="Email"
+          type="text"
+          placeholder="Username"
         />
         <input
           className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
