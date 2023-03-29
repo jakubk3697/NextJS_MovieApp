@@ -28,7 +28,7 @@ export const HeaderSearchbar = () => {
     }
 
     return(
-        <div className='relative w-full md:w-1/2 md:order-1 md:mt-0'>
+        <div className='relative w-full md:w-1/2 order-2'>
             <form 
                 className="relative flex items-center w-full mt-5 font-semibold text-gray-700 bg-gray-200 rounded-lg md:mt-0"
                 onSubmit={handleSubmit}

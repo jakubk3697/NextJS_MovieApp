@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
 import {
   getFirestore,
   collection,
@@ -9,26 +10,23 @@ import {
 } from "firebase/firestore";
 
 export const authOptions = {
-  session: {
-    strategy: 'jwt',
-  },
   providers: [
     CredentialsProvider({
-      name: 'FirebaseCredentials',
+      name: 'Credentials',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'admin' },
-        password: { label: 'Password', type: 'password' },
+        username: { label: 'Username', type: 'text', placeholder: 'Username' },
+        password: { label: 'Password', type: 'password', placeholder: 'Password' },
       },
       async authorize(credentials, req) {
         const { username, password } = credentials as { username: string, password: string };
         const db = getFirestore();
         const q = query(collection(db, "users"), where("username", "==", username));
         const querySnapshot = await getDocs(q);
-        console.log(querySnapshot);
         const userDoc = querySnapshot.docs[0];
 
         if (userDoc) {
           const user = userDoc.data();
+          
           if (user.password === password) {
             return user;
           } else {
@@ -38,11 +36,18 @@ export const authOptions = {
           throw new Error("User not found");
         }
       }
-    })
+    }),
+    
   ],
-  pages: {
-    signIn: '/auth/signIn',
-  }
+  session: {
+    strategy: 'jwt',
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
+  // pages: {
+  //   signIn: '/auth/signIn',
+  // }
 }
 
 export default NextAuth(authOptions)
