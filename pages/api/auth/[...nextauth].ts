@@ -1,5 +1,9 @@
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+interface myUser extends User {
+  password: string;
+}
 
 import {
   getFirestore,
@@ -18,16 +22,15 @@ export const authOptions = {
         password: { label: 'Password', type: 'password', placeholder: 'Password' },
       },
       async authorize(credentials, req) {
-        const { username, password } = credentials as { username: string, password: string };
         const db = getFirestore();
-        const q = query(collection(db, "users"), where("username", "==", username));
+        const q = query(collection(db, "users"), where("username", "==", credentials?.username));
         const querySnapshot = await getDocs(q);
         const userDoc = querySnapshot.docs[0];
 
         if (userDoc) {
-          const user = userDoc.data();
+          const user = userDoc.data() as myUser;
           
-          if (user.password === password) {
+          if (user.password === credentials?.password) {
             return user;
           } else {
             throw new Error("Invalid password");
@@ -45,10 +48,9 @@ export const authOptions = {
   jwt: {
     secret: process.env.JWT_SECRET,
   },
-  // pages: {
-  //   signIn: '/auth/signIn',
-  // }
+  pages: {
+    signIn: '/auth/signIn',
+  }
 }
 
-export default NextAuth(authOptions)
-
+export default NextAuth(authOptions as any)

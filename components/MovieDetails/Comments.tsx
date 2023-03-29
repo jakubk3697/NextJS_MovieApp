@@ -63,19 +63,24 @@ export const Comments = () => {
                 <Loader />
             ) : (
                 <>
-                    <div className="flex flex-col items-center justify-between mb-10 md:flex-row">
-                        {comments.map((comment: CommentProps) => {
-                            return (
-                                <Comment
-                                    key={comment.id}
-                                    id={comment.id}
-                                    author={comment.author}
-                                    title={comment.title}
-                                    content={comment.content}
-                                />
-                            );
-                        })}
-                    </div>
+                    {Array.isArray(comments) ? (
+                        <div className="flex flex-col items-center justify-between mb-10 md:flex-row">
+                            {comments.map((comment: CommentProps) => {
+                                return (
+                                    <Comment
+                                        key={comment.id}
+                                        id={comment.id}
+                                        author={comment.author}
+                                        title={comment.title}
+                                        content={comment.content}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <p>No comments found.</p>
+                    )}
+
                     <button
                         type="button"
                         className={`${isModalOpen ? "hidden" : "block"}
