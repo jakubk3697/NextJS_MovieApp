@@ -1,5 +1,6 @@
 import NextAuth, { User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
 interface myUser extends User {
   password: string;
@@ -22,6 +23,10 @@ export const authOptions = {
         password: { label: 'Password', type: 'password', placeholder: 'Password' },
       },
       async authorize(credentials, req) {
+        if (!credentials || !credentials.username || !credentials.password) {
+          throw new Error("Missing credentials");
+        }
+        
         const db = getFirestore();
         const q = query(collection(db, "users"), where("username", "==", credentials?.username));
         const querySnapshot = await getDocs(q);
@@ -30,7 +35,7 @@ export const authOptions = {
         if (userDoc) {
           const user = userDoc.data() as myUser;
           
-          if (user.password === credentials?.password) {
+          if (await bcrypt.compare(credentials?.password, user.password)) {
             return user;
           } else {
             throw new Error("Invalid password");
@@ -50,6 +55,7 @@ export const authOptions = {
   },
   pages: {
     signIn: '/auth/signIn',
+    signUp: '/auth/signUp',
   }
 }
 

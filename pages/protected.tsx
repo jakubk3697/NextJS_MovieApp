@@ -1,5 +1,5 @@
 import { useSession } from 'next-auth/react';
-import LoginBtn from '@/components/auth/LoginBtn';
+import LoginBtn from '@/components/authentication/LoginBtn';
 import Router from 'next/router';
 import { useEffect } from 'react';
 import { Loader } from '@/components/elements/Loader';

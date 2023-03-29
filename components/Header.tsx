@@ -5,7 +5,7 @@ import { ThemeButton } from './elements/ThemeButton';
 import { ChangeEventHandler } from 'react';
 import { useContext } from 'react';
 import { ThemeContext } from '@/contexts/theme';
-import LoginBtn from './auth/LoginBtn';
+import LoginBtn from './authentication/LoginBtn';
 
 /**
  * @description It renders the header component with the logo, searchbar and theme button. 
