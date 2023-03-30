@@ -1,7 +1,9 @@
 import { NextPage } from "next";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import firebase from '@/firebase/clientApp';
 import SignForm from "@/components/authentication/SignForm";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 /**
  * @description Sign In page component to sign in with Firebase Authentication. 
@@ -9,30 +11,41 @@ import SignForm from "@/components/authentication/SignForm";
  * @returns JSX.Element - Sign In page component to sign in with Firebase Authentication
  */
 const SignIn: NextPage = (): JSX.Element => {
+  const router = useRouter();
   const emailRef = useRef<HTMLInputElement>("" as any);
   const passwordRef = useRef<HTMLInputElement>("" as any);
+  const [formError, setFormError] = useState<string>("");
 
+  function extractUserFriendlyMessage(error: string) {
+    const messageRegExp = /(?:Firebase:\s)?(.+?)(?:\s\(auth\/.+?\))?\.?$/;
+    const match = error.match(messageRegExp);
+  
+    if (match && match[1]) {
+      return match[1];
+    }
+  }
+  
+  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const emailValue = emailRef.current.value;
     const passwordValue = passwordRef.current.value;
-
-    try {
-      // Sign in with Firebase Authentication
-      const authResult = await firebase.auth().signInWithEmailAndPassword(emailValue, passwordValue);
-
-      /**
-       * @todo add function to set user in context
-       * @todo add function to redirect to home page
-       * @todo add function to show greeting message
-       */
-      const user = authResult.user;
-    } catch (error) {
-      // Handle sign-in errors
-      console.error("Sign-in error:", error);
+    
+    const result = await signIn("credentials", {
+      email: emailValue,
+      password: passwordValue,
+      redirect: false,
+    })
+    if(result?.error) {
+      setFormError(result.error);
+    } else {
+      setFormError("");
+      router.push("/");
     }
+    
   };
-
+  
+  const errorMessage = extractUserFriendlyMessage(formError) || "";
   return (
     <SignForm
       handleSubmit={handleSubmit}
@@ -42,6 +55,7 @@ const SignIn: NextPage = (): JSX.Element => {
       redirectTitle="Sign Up"
       redirectText="Don't have an account?"
       redirectRoute="/auth/signUp"
+      errorMessage={errorMessage}
     />
   );
 };

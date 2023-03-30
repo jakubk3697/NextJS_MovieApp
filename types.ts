@@ -58,11 +58,12 @@ export interface CommentsForm {
 }
 
 export interface SignFormProps {
+  handleSubmit: FormEventHandler<HTMLFormElement>;
   title: string;
   emailRef: React.RefObject<HTMLInputElement>;
   passwordRef: React.RefObject<HTMLInputElement>;
   redirectTitle: string;
   redirectText: string;
   redirectRoute: string;
-  handleSubmit: FormEventHandler<HTMLFormElement>;
+  errorMessage: string,
 }

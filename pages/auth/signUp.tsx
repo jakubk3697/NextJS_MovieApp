@@ -37,6 +37,7 @@ const SignUp: NextPage = (): JSX.Element => {
       redirectTitle="Sign In"
       redirectText="Already have an account?"
       redirectRoute="/auth/signIn"
+      errorMessage=""
    />
   );
 };

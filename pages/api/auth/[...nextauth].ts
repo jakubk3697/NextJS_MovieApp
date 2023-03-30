@@ -1,48 +1,37 @@
 import NextAuth, { User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
+import firebase from "@/firebase/clientApp";
 
-interface myUser extends User {
-  password: string;
-}
-
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+const firestore = firebase.firestore();
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: 'Email and password',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'Username' },
+        email: { label: 'Username', type: 'text', placeholder: 'Email' },
         password: { label: 'Password', type: 'password', placeholder: 'Password' },
       },
-      async authorize(credentials, req) {
-        if (!credentials || !credentials.username || !credentials.password) {
+      async authorize(credentials) {
+        if (!credentials || !credentials.email || !credentials.password) {
           throw new Error("Missing credentials");
         }
-        
-        const db = getFirestore();
-        const q = query(collection(db, "users"), where("username", "==", credentials?.username));
-        const querySnapshot = await getDocs(q);
-        const userDoc = querySnapshot.docs[0];
+        try {
+          const userCredential = await firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password);
+          const user = userCredential.user;
+          const userDoc = await firestore.collection("users").doc(user?.uid).get();
+          const role = userDoc.data()?.role;
 
-        if (userDoc) {
-          const user = userDoc.data() as myUser;
-          
-          if (await bcrypt.compare(credentials?.password, user.password)) {
-            return user;
-          } else {
-            throw new Error("Invalid password");
-          }
-        } else {
-          throw new Error("User not found");
+          return {
+            id: user?.uid || "",
+            name: user?.displayName || "Anonymous",
+            email: user?.email || "",
+            role,
+          };
+        } catch (error: any) {
+          throw new Error(error.message);
         }
+        
       }
     }),
     

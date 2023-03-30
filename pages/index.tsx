@@ -11,9 +11,6 @@ import firebase from "@/firebase/clientApp";
  * @returns Static page with the first page of popular movies
  */
 export default function Home({movies}: {movies: Movies}) {
-  const [user, loading, error] = useAuthState(firebase.auth() as any);
-  console.log("Loading: ", loading, "|", "Current User: ", user, "|");
-
   return (
     <>
       <MovieCards movies={movies} />

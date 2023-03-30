@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {SignFormProps} from "@/types";
+import { useSession } from "next-auth/react";
 
 /**
  * 
@@ -12,7 +13,11 @@ import {SignFormProps} from "@/types";
  * @description form component for sign in and sign up pages
  * @returns form component with title, email input, password input, submit button, and redirect link taken from props
  */
-const SignForm = ({handleSubmit, title, emailRef, passwordRef, redirectTitle, redirectText, redirectRoute }:SignFormProps): JSX.Element => {
+const SignForm = ({handleSubmit, title, emailRef, passwordRef, redirectTitle, redirectText, redirectRoute, errorMessage }:SignFormProps): JSX.Element => {
+  // const { data: session, status } = useSession();
+  // console.log({session});
+  // console.log({status});
+  
   return (
     <div className="bg-gray-100 flex flex-col justify-center max-w-md mx-auto py-6 px-6 lg:px-8">
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -38,6 +43,7 @@ const SignForm = ({handleSubmit, title, emailRef, passwordRef, redirectTitle, re
         />
       </form>
       <p className="text-black mt-3">{redirectText} <Link href={redirectRoute} className="text-red-600 hover:opacity-90 cursor-pointer">{redirectTitle}</Link></p>
+      {errorMessage && <p className="text-red-600 mt-3">{errorMessage}</p>}
     </div>
   );
 };

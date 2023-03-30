@@ -1,7 +1,7 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function LoginBtn() {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <div>
@@ -17,6 +17,7 @@ export default function LoginBtn() {
         <button
         className="bg-green-800 text-sm text-white tracking-wirder py-2 px-3 rounded-lg hover:opacity-95"
         onClick={() => signOut()}
+        disabled={status === 'loading'}
       >
         Sign out
       </button>
