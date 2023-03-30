@@ -1,56 +1,43 @@
 import { NextPage } from "next";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler } from "react";
 import Link from "next/link";
 import { addUser } from "@/components/authentication/addUser";
+import { useRef } from "react";
+import SignForm from "@/components/authentication/SignForm";
 
-const SignUp: NextPage = (props): JSX.Element => {
-  const [userInfo, setUserInfo] = useState({ username: "", email: "", password: "", role: "" });
+/**
+ * @description Sign Up page
+ * @returns JSX.Element - Sign Up page component with form to register user account in Firebase Authentication and firestore database
+ */
+const SignUp: NextPage = (): JSX.Element => {
+  const emailRef = useRef<HTMLInputElement>("" as any);
+  const passwordRef = useRef<HTMLInputElement>("" as any);
+  /**
+   * @todo add function  to set role
+   */
+  const roleRef = useRef<string>("loggedUser" as any); 
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    // validate your userinfo
     e.preventDefault();
-    const res = await addUser(userInfo.username, userInfo.email, userInfo.password, userInfo.role);
 
-    console.log(userInfo);
+    const emailValue = emailRef.current.value;
+    const usernameValue = emailValue?.slice(0, emailValue.indexOf("@"));
+    const passwordValue = passwordRef.current.value;
+    const roleValue = roleRef.current;
+  
+    const res = await addUser(usernameValue, emailValue, passwordValue, roleValue);
   };
-
-  const setUserNameAndEmail = (email: string) => {
-    const username = email.slice(0, email.indexOf("@"));
-    setUserInfo({ ...userInfo, email, username });
-  }
  
   return (
-    <div className="bg-gray-100 flex flex-col justify-center max-w-md mx-auto py-6 px-6 lg:px-8">
-      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-        <h1 className="text-center font-bold text-2 xl text-black">
-          Sign Up
-        </h1>
-        <input
-          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          value={userInfo.email}
-          onChange={({ target }) =>
-            setUserNameAndEmail(target.value)
-          }
-          type="email"
-          placeholder="Email address"
-        />
-        <input
-          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          value={userInfo.password}
-          onChange={({ target }) =>
-            setUserInfo({ ...userInfo, password: target.value })
-          }
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-900 focus:outline-none cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          type="submit"
-          value="Register"
-        />
-      </form>
-      <p className="text-black mt-3">Already have an account? <Link href={'/auth/signIn'} className="text-red-600 hover:opacity-90 cursor-pointer">Sign up</Link></p>
-    </div>
+   <SignForm
+      handleSubmit={handleSubmit}
+      title="Sign Up"
+      emailRef={emailRef}
+      passwordRef={passwordRef}
+      redirectTitle="Sign In"
+      redirectText="Already have an account?"
+      redirectRoute="/auth/signIn"
+   />
   );
 };
 

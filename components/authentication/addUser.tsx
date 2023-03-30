@@ -5,7 +5,10 @@ const db = firebase.firestore();
 
 export async function addUser(username: string, email: string, password: string, role: string) {
   try {
-    // Create a user with Firebase Authentication (this way is secure - password hasing and salting)
+  /**
+   * @description Create a user with Firebase Authentication (this way is secure - password hasing and salting)
+     The uid will be the document ID.
+   */
     const authResult = await firebase.auth().createUserWithEmailAndPassword(email, password);
 
     if (authResult.user) {
@@ -20,9 +23,11 @@ export async function addUser(username: string, email: string, password: string,
         role,
       };
 
-      // Add the user to the Firestore database. The uid will be the document ID. 
-      // In firestore we have more data than in firebase auth. We can use the uid to link the two.
-      // We also have more data to authorize different users for different pages.
+    /**
+     * @description Add the user to the Firestore database. 
+        In firestore we have more data than in firebase auth. We can use the uid to link the two.
+        We also have more data to authorize different users for different pages.
+      */
       const docRef = await addDoc(collection(db, 'users'), user);
       console.log('User added with ID:', docRef.id);
     } else {
