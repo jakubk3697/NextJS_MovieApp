@@ -22,12 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const commentsRef = firebase.firestore().collection('comments').doc(`movie_${movieID}`);
     const commentsDoc = await commentsRef.get();
 
-    // Check if comments document for the given movieID exists
-    if (!commentsDoc.exists) {
-      res.status(404).json({ message: `Comments not found for movieID ${movieID}` });
-      return;
-    }
-
     const commentsData = commentsDoc.data();
     const comments = commentsData?.comments || [];
 

@@ -32,22 +32,28 @@ export default async function handler(
 
       const commentsDoc = await commentRef.get();
 
-      // Check if comments document for the given movieID exists
+      // If comments document for the given movieID doesn't exist, create a new one
       if (!commentsDoc.exists) {
-        res
-          .status(404)
-          .json({ message: `Comments not found for movieID ${movieID}` });
-        return;
+        await commentRef.set({
+          comments: [
+            {
+              id: Date.now(),
+              author: author,
+              title: title,
+              content: content,
+            },
+          ],
+        });
+      } else {
+        await commentRef.update({
+          comments: firebase.firestore.FieldValue.arrayUnion({
+            id: Date.now(),
+            author: author,
+            title: title,
+            content: content,
+          }),
+        });
       }
-
-      await commentRef.update({
-        comments: firebase.firestore.FieldValue.arrayUnion({
-          id: Date.now(),
-          author: author,
-          title: title,
-          content: content,
-        }),
-      });
 
       res.status(201).json({ message: "Comment added successfully" });
     } catch (error) {

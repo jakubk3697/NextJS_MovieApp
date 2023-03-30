@@ -31,6 +31,7 @@ export interface Movie {
   
   export interface MovieCardProps {
     movie: Movie;
+    genres: Genre[];
   }
 
  export interface CommentProps {

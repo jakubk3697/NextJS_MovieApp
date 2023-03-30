@@ -22,7 +22,6 @@ export const Comments = () => {
     const initFetchComments = async () => {
         const response = await fetch(`/api/get/comments/${id}`);
         const data = await response.json();
-
         return data;
     }
 
@@ -46,9 +45,8 @@ export const Comments = () => {
 
         const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.message || 'Something went wrong!');
-        }
+        console.log(data);
+        
         setQueryTrigger(true);
     }
 
