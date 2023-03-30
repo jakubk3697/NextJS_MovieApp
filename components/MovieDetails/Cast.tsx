@@ -35,7 +35,7 @@ export const Cast = ({ cast }: { cast: object[] }) => {
                     src={generateActorPoster(actor.profile_path)}
                     alt={actor.name} 
                     width={200}
-                    height={225}
+                    height={300}
                     className="rounded-md mx-auto"
                   />
                   <p className="my-2 text-lg font-semibold">{actor.name}</p>

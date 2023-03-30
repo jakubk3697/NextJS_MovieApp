@@ -28,7 +28,7 @@ export default function AIMatchPage() {
             `,
         };
 
-        const response = await fetch('/api/post/openai/generate-titles', {
+        const response = await fetch('/api/post/openai/completions/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
