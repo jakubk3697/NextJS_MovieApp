@@ -1,7 +1,8 @@
 import MovieCards from "@/components/MovieCards";
 import { Movies, Movie } from "@/types";
 import axios from "axios";
-// import { fetchMovies } from "@/API/moviedbAPI";
+import { useAuthState } from "react-firebase-hooks/auth";
+import firebase from "@/firebase/clientApp";
 
 /**
  * 
@@ -9,7 +10,7 @@ import axios from "axios";
  * @description It is initial page of the app. It fetches the first page of popular movies and displays them.
  * @returns Static page with the first page of popular movies
  */
-export default function Home({movies}:{movies: Movies}) {
+export default function Home({movies}: {movies: Movies}) {
   return (
     <>
       <MovieCards movies={movies} />
@@ -29,6 +30,6 @@ export async function getStaticProps() {
         props: {
             movies: data.results,
         }, 
-        revalidate: 60 * 60 * 24, 
+        revalidate: 60 * 60 * 24,  
     }
 }

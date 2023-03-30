@@ -43,7 +43,6 @@ export const CommentForm = ({ isOpen, onClose, onAddComment }: CommentFormProps)
     };
 
     /**
-     * @param e is a React.FormEvent<HTMLFormElement> object
      * @description This function is a handler for the form submit event. It takes the data from the form and passes it to the onAddComment function
      */
     const submitHandler = async () => {
@@ -104,7 +103,7 @@ export const CommentForm = ({ isOpen, onClose, onAddComment }: CommentFormProps)
                         ref={contentRef}
                     />
                     {formInputsValidation.content === false && (
-                        <span className='text-red-500'>Title should contain 20-200 characters.</span>
+                        <span className='text-red-500'>Title should contain 10-200 characters.</span>
                     )}
                 </div>
 

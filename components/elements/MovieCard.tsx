@@ -16,20 +16,14 @@ import { ThemeContext } from '@/contexts/theme';
  * @description It uses the Link component from next to navigate to the movie page.
  * @returns MovieCard component with the movie info and movie poster.
  */
-export const MovieCard = ({ movie }: MovieCardProps) => {
-    const [genres, setGenres] = useState<Genre[]>([]);
+export const MovieCard = ({ movie, genres }: MovieCardProps) => {
     const theme = useContext(ThemeContext);
-
-
-    useEffect(() => {
-      fetchGenres().then((genres) => setGenres(genres));
-      }, []);
     
-      const getGenre = (id: number): string => {
+    const getGenre = (id: number): string => {
         const genre = genres.find((genre) => genre.id === id);
         return genre ? genre.name : '';
-      };
-
+    }
+    
       const moviePosterUrl =  movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : noCardPoster;
 
       const themeTextColor = theme === 'dark' ? 'text-gray-200' : 'text-gray-700';

@@ -1,3 +1,5 @@
+import { FormEventHandler } from "react";
+
 export interface Movie {
   runtime: number;
   genres: { id: number; name: string; }[];
@@ -29,10 +31,11 @@ export interface Movie {
   
   export interface MovieCardProps {
     movie: Movie;
+    genres: Genre[];
   }
 
  export interface CommentProps {
-    _id: string;
+    id: string;
     author: string;
     title: string;
     content: string;
@@ -53,4 +56,15 @@ export interface CommentsForm {
   title: RegExp;
   content: RegExp;
   author: RegExp;
+}
+
+export interface SignFormProps {
+  handleSubmit: FormEventHandler<HTMLFormElement>;
+  title: string;
+  emailRef: React.RefObject<HTMLInputElement>;
+  passwordRef: React.RefObject<HTMLInputElement>;
+  redirectTitle: string;
+  redirectText: string;
+  redirectRoute: string;
+  errorMessage: string,
 }

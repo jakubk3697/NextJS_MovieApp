@@ -5,6 +5,7 @@ import { ThemeButton } from './elements/ThemeButton';
 import { ChangeEventHandler } from 'react';
 import { useContext } from 'react';
 import { ThemeContext } from '@/contexts/theme';
+import LoginBtn from './authentication/LoginBtn';
 
 /**
  * @description It renders the header component with the logo, searchbar and theme button. 
@@ -22,7 +23,10 @@ export const Header = ({handleTheme}: {handleTheme: ChangeEventHandler<HTMLInput
                     <BiCameraMovie className={`${themeTextColor} mr-1 text-4xl`} />
                     <h1 className={`${themeTextColor} text-3xl font-semibold tracking-wider`}>Movie App</h1>
             </Link>
-            <ThemeButton handleTheme={handleTheme}/>
+            <div className="flex items-center justify-center gap-x-2 sm:ml-auto md:order-3">
+                <LoginBtn/>
+                <ThemeButton handleTheme={handleTheme}/>
+            </div>
             <HeaderSearchbar />
         </header>
     );
