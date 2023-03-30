@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { FormEvent, useRef, useState } from "react";
-import firebase from '@/firebase/clientApp';
 import SignForm from "@/components/authentication/SignForm";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import { extractUserFriendlyMessage } from "@/utils/validation";
 
 /**
  * @description Sign In page component to sign in with Firebase Authentication. 
@@ -16,16 +16,6 @@ const SignIn: NextPage = (): JSX.Element => {
   const passwordRef = useRef<HTMLInputElement>("" as any);
   const [formError, setFormError] = useState<string>("");
 
-  function extractUserFriendlyMessage(error: string) {
-    const messageRegExp = /(?:Firebase:\s)?(.+?)(?:\s\(auth\/.+?\))?\.?$/;
-    const match = error.match(messageRegExp);
-  
-    if (match && match[1]) {
-      return match[1];
-    }
-  }
-  
-  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const emailValue = emailRef.current.value;

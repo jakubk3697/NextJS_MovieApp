@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {SignFormProps} from "@/types";
 import { useSession } from "next-auth/react";
+import { Loader } from "../elements/Loader";
 
 /**
  * 
@@ -14,9 +15,8 @@ import { useSession } from "next-auth/react";
  * @returns form component with title, email input, password input, submit button, and redirect link taken from props
  */
 const SignForm = ({handleSubmit, title, emailRef, passwordRef, redirectTitle, redirectText, redirectRoute, errorMessage }:SignFormProps): JSX.Element => {
-  // const { data: session, status } = useSession();
-  // console.log({session});
-  // console.log({status});
+  const { data: session, status } = useSession();
+  if(status === "loading") return <Loader/>
   
   return (
     <div className="bg-gray-100 flex flex-col justify-center max-w-md mx-auto py-6 px-6 lg:px-8">

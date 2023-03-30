@@ -17,3 +17,12 @@ export const AITextToArray = (text:string) => {
     console.log("No array found.");
   }
 }
+
+export const extractUserFriendlyMessage = (error: string) =>  {
+  const messageRegExp = /(?:Firebase:\s)?(.+?)(?:\s\(auth\/.+?\))?\.?$/;
+  const match = error.match(messageRegExp);
+
+  if (match && match[1]) {
+    return match[1];
+  }
+}
