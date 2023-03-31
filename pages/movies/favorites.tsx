@@ -17,11 +17,9 @@ export default function Protected() {
     if(status === 'authenticated') {
         return (
             <div>
-                <h1>Favorite movies</h1>
-                <p>
-                    {session ? `Welcome ${session?.user?.email}` : 'You need to be signed in to view this page'}
-                </p>
-                <LoginBtn />
+                {/* <p className="text-sm text-gray-600 mb-5">Logged as: {session?.user?.email}</p> */}
+                <h2 className="text-2xl font-bold text-gray-200">Favorites movies:</h2>
+                
             </div>
         )
     }

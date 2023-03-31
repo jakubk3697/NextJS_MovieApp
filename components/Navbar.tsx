@@ -3,6 +3,7 @@ import { FaBars } from "react-icons/fa";
 import { useState } from "react";
 import { AISearchbar } from "./elements/AISearchbar";
 import { categories } from "@/utils/categories";
+import { useSession } from "next-auth/react";
 
 /**
  * @description on small screen devices, it renders the hamburger menu icon which can be used to toggle the navbar.
@@ -12,6 +13,7 @@ import { categories } from "@/utils/categories";
  */
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -32,6 +34,14 @@ export const Navbar = () => {
               {category.name}
             </Link>
           ))}
+            <Link
+              href={`/movies/favorites`}
+              className={`${
+                isMenuOpen ? "block" : "hidden"
+              }  text-red-600 my-2 p-2 rounded-full transition duration-200 ease-in-out transform hover:scale-105 hover:bg-gray-800 md:block md:my-0 md:mx-2`}
+            >
+              Favorites 
+            </Link>
         </div>
         <div className={`${isMenuOpen && "absolute top-0 right-0 mb-5" } flex items-center`}>
           <button
