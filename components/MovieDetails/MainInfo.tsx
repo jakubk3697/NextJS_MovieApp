@@ -2,8 +2,7 @@ import Image from 'next/image';
 import { BsBookmarkStar } from 'react-icons/bs';
 import { Movie } from '@/types';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-
+import { useState } from 'react';
 
 /**
  * 
@@ -14,11 +13,9 @@ import { useRouter } from 'next/router';
 export const MainInfo = ({ movie }: { movie: Movie }) => {
     const moviePosterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
     const { data: session, status } = useSession();
-    const Router = useRouter();
+    const [isErr, setIsErr] = useState(false);
 
     const handleAddToFavorites = async () => {
-        if (status === 'unauthenticated') Router.replace('/auth/signIn');
-
         if (status === 'authenticated') {
             const response = await fetch('/api/post/movies/favorites', {
                 method: 'POST',
@@ -32,10 +29,11 @@ export const MainInfo = ({ movie }: { movie: Movie }) => {
             })
             const data = await response
             console.log(data);
+        } else {
+            setIsErr(true);
         }
 
     }
-
 
     return (
         <section className="flex flex-col items-center pb-10 border-b border-gray-500 md:flex-row">
@@ -66,6 +64,7 @@ export const MainInfo = ({ movie }: { movie: Movie }) => {
                     <BsBookmarkStar className="h-5 w-5 mr-2" />
                     Add to Favorites
                 </button>
+                {isErr && <p className="text-red-500 font-xs mt-1">You must register to add movie to favorite.</p>}
             </div>
         </section>
     )
