@@ -61,7 +61,7 @@ export const Comments = () => {
             toggleModalView();
             
         } else {
-            alert('You need to be logged in to add a comment');
+            alert('You must be logged in to add a comment');
             router.replace('/auth/signIn');
         }
     }
