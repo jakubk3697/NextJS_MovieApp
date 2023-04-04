@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           role,
         };
 
-        await addDoc(collection(db, 'users'), user);
+        await addDoc(collection(db, 'usersData'), user);
         res.status(200).json({ message: 'User created successfully.' });
       } else {
         res.status(500).json({ error: 'User not created.' });

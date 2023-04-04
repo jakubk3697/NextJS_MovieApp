@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { BsBookmarkStar } from 'react-icons/bs';
 import { Movie } from '@/types';
-
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 /**
  * 
@@ -11,6 +12,26 @@ import { Movie } from '@/types';
  */
 export const MainInfo = ({ movie }: { movie: Movie }) => {
     const moviePosterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+    const { data: session, status } = useSession();
+    const [isErr, setIsErr] = useState(false);
+
+    const handleAddToFavorites = async () => {
+        if (status === 'authenticated') {
+            await fetch('/api/post/movies/favorites', {
+                method: 'POST',
+                body: JSON.stringify({
+                    movieId: movie.id,
+                    userEmail: session?.user?.email,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+        } else {
+            setIsErr(true);
+        }
+
+    }
 
     return (
         <section className="flex flex-col items-center pb-10 border-b border-gray-500 md:flex-row">
@@ -34,10 +55,14 @@ export const MainInfo = ({ movie }: { movie: Movie }) => {
                 </p>
                 <p className="mb-2 text-lg font-bold text-gray-400">{`${movie.runtime} min`}</p>
                 <p className="mb-2 text-lg font-bold text-gray-400">{`Released on ${movie.release_date}`}</p>
-                <button className="flex items-center px-4 py-2 rounded-md bg-red-500 text-white">
+                <button
+                    className="flex items-center px-4 py-2 rounded-md bg-red-500 text-white"
+                    onClick={handleAddToFavorites}
+                >
                     <BsBookmarkStar className="h-5 w-5 mr-2" />
                     Add to Favorites
                 </button>
+                {isErr && <p className="text-red-500 font-xs mt-1">You must register to add movie to favorite.</p>}
             </div>
         </section>
     )

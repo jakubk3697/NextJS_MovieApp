@@ -5,6 +5,7 @@ import { CommentsProps } from "@/types";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { Loader } from "../elements/Loader";
+import { useSession } from 'next-auth/react';
 
 /**
  * @description It generates comments fetched from the database and passes them to the Comment component
@@ -16,6 +17,8 @@ import { Loader } from "../elements/Loader";
 export const Comments = () => {
     const router = useRouter();
     const { id } = router.query;
+    const { data: session, status } = useSession();
+
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [queryTrigger, setQueryTrigger] = useState<boolean>(true);
 
@@ -35,17 +38,13 @@ export const Comments = () => {
     });
 
     async function addCommentHandler(enteredCommentData: any) {
-        const response = await fetch(`/api/post/comments/${id}`, {
+        await fetch(`/api/post/comments/${id}`, {
             method: 'POST',
             body: JSON.stringify(enteredCommentData),
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-
-        const data = await response.json();
-
-        console.log(data);
         
         setQueryTrigger(true);
     }
@@ -53,6 +52,16 @@ export const Comments = () => {
     const toggleModalView = () => {
         setIsModalOpen(!isModalOpen);
     };
+
+    const handleAddCommentClick = () => {
+        if (status === 'authenticated') {
+            toggleModalView();
+            
+        } else {
+            alert('You must be logged in to add a comment');
+            router.replace('/auth/signIn');
+        }
+    }
 
     return (
         <section className="relative py-10 border-b border-gray-500">
@@ -83,7 +92,7 @@ export const Comments = () => {
                         type="button"
                         className={`${isModalOpen ? "hidden" : "block"}
                 absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 text-white bg-blue-700 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
-                        onClick={toggleModalView}
+                        onClick={handleAddCommentClick}
                     >
                         Add a comment
                     </button>
