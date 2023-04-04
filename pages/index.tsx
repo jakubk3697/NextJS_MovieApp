@@ -1,8 +1,7 @@
 import MovieCards from "@/components/MovieCards";
 import { Movies, Movie } from "@/types";
 import axios from "axios";
-import { useAuthState } from "react-firebase-hooks/auth";
-import firebase from "@/firebase/clientApp";
+import { useSession } from "next-auth/react"
 
 /**
  * 
@@ -11,6 +10,9 @@ import firebase from "@/firebase/clientApp";
  * @returns Static page with the first page of popular movies
  */
 export default function Home({movies}: {movies: Movies}) {
+  const { data: session } = useSession();
+  console.log(session);
+  
   return (
     <>
       <MovieCards movies={movies} />
@@ -30,6 +32,6 @@ export async function getStaticProps() {
         props: {
             movies: data.results,
         }, 
-        revalidate: 60 * 60 * 24,  
+        revalidate: 60 * 60 * 24,
     }
 }

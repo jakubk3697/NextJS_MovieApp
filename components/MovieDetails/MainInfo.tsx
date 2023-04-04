@@ -17,7 +17,7 @@ export const MainInfo = ({ movie }: { movie: Movie }) => {
 
     const handleAddToFavorites = async () => {
         if (status === 'authenticated') {
-            const response = await fetch('/api/post/movies/favorites', {
+            await fetch('/api/post/movies/favorites', {
                 method: 'POST',
                 body: JSON.stringify({
                     movieId: movie.id,
@@ -27,8 +27,6 @@ export const MainInfo = ({ movie }: { movie: Movie }) => {
                     'Content-Type': 'application/json',
                 },
             })
-            const data = await response
-            console.log(data);
         } else {
             setIsErr(true);
         }

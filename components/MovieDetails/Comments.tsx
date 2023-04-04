@@ -38,16 +38,13 @@ export const Comments = () => {
     });
 
     async function addCommentHandler(enteredCommentData: any) {
-        const response = await fetch(`/api/post/comments/${id}`, {
+        await fetch(`/api/post/comments/${id}`, {
             method: 'POST',
             body: JSON.stringify(enteredCommentData),
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-
-        const data = await response.json();
-        console.log(data);
         
         setQueryTrigger(true);
     }

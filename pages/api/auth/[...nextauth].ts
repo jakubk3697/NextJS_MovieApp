@@ -1,6 +1,7 @@
 import NextAuth, { User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import firebase from "@/firebase/clientApp";
+import GitHubProvider from "next-auth/providers/github";
 
 const firestore = firebase.firestore();
 
@@ -9,7 +10,7 @@ export const authOptions = {
     CredentialsProvider({
       name: 'Email and password',
       credentials: {
-        email: { label: 'Username', type: 'text', placeholder: 'Email' },
+        email: { label: 'Email', type: 'text', placeholder: 'Email' },
         password: { label: 'Password', type: 'password', placeholder: 'Password' },
       },
       async authorize(credentials) {
@@ -24,7 +25,6 @@ export const authOptions = {
 
           return {
             id: user?.uid || "",
-            name: user?.displayName || "Anonymous",
             email: user?.email || "",
             role,
           };
@@ -34,14 +34,17 @@ export const authOptions = {
         
       }
     }),
-    
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string,
+  
+    }),
   ],
+  
   session: {
     strategy: 'jwt',
   },
-  jwt: {
-    secret: process.env.JWT_SECRET,
-  },
+  
   pages: {
     signIn: '/auth/signIn',
     signUp: '/auth/signUp',
