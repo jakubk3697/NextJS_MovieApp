@@ -16,4 +16,4 @@ I want to include basic functionalities in first MVP:
 Visit **[MovieApp](https://miro.com/app/live-embed/uXjVPxc1zls=/?moveToViewport=-927,-1866,1918,932&embedId=833767332866)** on Miro table. Layout and some ideas may change :wink:
 
 ## ⌛Live (in progress)
-🔍 **[MovieApp](https://next-js-movie-app-chi.vercel.app/)**
+🔍 **[MovieApp](https://jakubkaminski-movie-app.vercel.app/)**
